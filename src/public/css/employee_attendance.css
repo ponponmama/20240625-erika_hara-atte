@@ -1,0 +1,101 @@
+.employee_table {
+    width: 90%;
+    background-color: #c2c4b2;
+    margin: 0 5%;
+}
+
+
+/* テーブルのスタイル */
+.employee_user_table table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.user_name {
+    border-top: 1px solid rgb(119, 118, 118);
+    font-size: 1.2rem;
+    color: black;
+    padding: 10px;
+    background-color: #f4f7d8;
+}
+
+.employee_user_table th,
+.employee_user_table td {
+    border-bottom: 1px solid rgb(119, 118, 118);
+    ;
+    padding: 8px;
+    text-align: center;
+}
+
+.employee_user_table td {
+    padding: 10px;
+    text-align: center;
+}
+
+.employee_user_table th {
+    text-align: center;
+}
+
+
+/*日付のページネーションのstyle*/
+.custom-date-pagination {
+    text-align: center;
+    margin: 10px;
+}
+
+.custom-date-pagination a {
+    display: inline-block;
+    padding: 1px 8px;
+    margin: 14px 10px;
+    border: 1px solid blue;
+    background-color: white;
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.date_span {
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.custom-date-pagination a:hover {
+    background-color: #8cbff5;
+    color: white;
+}
+
+
+/*件数が増えたときに表示されるbootstrapのページネーション*/
+.custom-count-pagination {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.custom-count-pagination .page-item {
+    display: inline-block;
+    margin: 0 1px;
+}
+
+.custom-count-pagination .page-link {
+    padding: 5px 8px;
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid rgb(119, 118, 118);
+    font-size: 0.7rem;
+    background-color: white;
+}
+
+.custom-count-pagination .page-item.active .page-link {
+    background-color: blue;
+    color: white;
+    border-color: blue;
+}
+
+.custom-count-pagination .page-link:hover {
+    background-color: #8cbff5;
+}

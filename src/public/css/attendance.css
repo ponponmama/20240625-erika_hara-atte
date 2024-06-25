@@ -1,0 +1,94 @@
+.date_table {
+    width: 90%;
+    background-color: #f4f7d8;
+    margin: 0 5%;
+    font-weight: bold;
+}
+
+
+/* 日付ページネーションのスタイル */
+.custom-date-pagination {
+    text-align: center;
+    margin: 10px;
+}
+
+.custom-date-pagination a {
+    display: inline-block;
+    padding: 1px 8px;
+    margin: 14px 10px;
+    border: 1px solid blue;
+    background-color: white;
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.date_span {
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.custom-date-pagination a:hover {
+    background-color: #8cbff5;
+    color: white;
+}
+
+/* テーブルのスタイル */
+.date_table_list table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 0.8rem;
+}
+
+.date_table_list th,
+.date_table_list td {
+    border-top: 1px solid rgb(119, 118, 118);
+    border-bottom: 1px solid rgb(119, 118, 118);
+    padding: 15px;
+    text-align: center;
+}
+
+
+.date_list_name {
+    text-align: left !important;
+    padding-left: 5% !important;
+}
+
+.date_table_list tr:last-child td {
+    border-bottom: none;
+}
+
+/* bootstrapのページネーションのスタイル */
+.custom-count-pagination {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.custom-count-pagination .page-item {
+    display: inline-block;
+    margin: 0 1px;
+}
+
+.custom-count-pagination .page-link {
+    padding: 5px 8px;
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid rgb(119, 118, 118);
+    font-size: 0.7rem;
+    background-color: white;
+}
+
+.custom-count-pagination .page-item.active .page-link {
+    background-color: blue;
+    color: white;
+    border-color: blue;
+}
+
+.custom-count-pagination .page-link:hover {
+    background-color: #8cbff5;
+}

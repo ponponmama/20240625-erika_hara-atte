@@ -1,0 +1,100 @@
+.custom-container {
+    min-height: 80vh;
+    background-color: #f4f7d8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin: 0% 5%;
+}
+
+.custom-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+
+}
+
+.container {
+    width: 100%;
+    margin-top: -10%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+}
+
+form {
+    width: 34%;
+}
+
+.form__error {
+    height: 22px;
+    color: #ff0000;
+    text-align: center;
+    font-size: 0.7rem;
+
+}
+
+.title {
+    text-align: center;
+}
+
+.custom_title {
+    font-size: 1.2rem;
+    margin-bottom: 6%;
+}
+
+.custom_title_register {
+    margin-top: 5%;
+    font-size: 1.2em;
+
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    background-color: #f4f7d8;
+    border: 2px solid rgb(119, 118, 118);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    padding: 12px;
+    font-weight: bold;
+    color: rgb(61, 61, 61);
+}
+
+.custom-submit-button {
+    width: 100%;
+    background-color: blue;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.custom-submit-button:hover {
+    background-color: #8cbff5;
+
+}
+
+.text_link {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.7rem;
+}
+
+.login-link-text {
+    color: rgb(119, 118, 118);
+    font-size: 0.7rem;
+
+}
+
+.custom-login-link {
+    color: blue;
+    text-decoration: none;
+
+}
