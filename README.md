@@ -38,7 +38,7 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 ###テーブル設計・ER図
 
-![Atte Diagram](src/resources/views/atte.drawio.png)
+![Atte Diagram](atte.drawio.png)
 
 ### 環境構築
 
