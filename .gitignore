@@ -10,5 +10,4 @@ docker/mysql/data/
 
 .env
 .env.testing
-.env.example
 docker-compose.yml
