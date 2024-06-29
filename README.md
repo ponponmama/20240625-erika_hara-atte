@@ -51,5 +51,5 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 - **Laravel Framework**: 8.83.27
 
 ### URL
--　**開発環境：http://localhost/
--　**phpMyAdmin：http//localhost:8080/
+- **開発環境:** [http://localhost/](http://localhost/)
+- **phpMyAdmin:** [http://localhost:8080/](http://localhost:8080/)
