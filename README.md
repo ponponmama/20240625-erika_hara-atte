@@ -50,6 +50,16 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 - **Docker**: 26.0.0
 - **Laravel Framework**: 8.83.27
 
+- **＊ご使用のPCに合わせて各種必要なファイル(.envやdocker-compose.yml等)は作成、編集してください。**
+
+- **1.docker-compose exec bash**
+- **2.composer install**
+- **3..env.exampleファイルから.envを作成し、環境変数を変更**
+- **4.php artisan key:generate**
+- **5.php artisan migrate**
+- **6.php artisan db:seed**
+
 ### URL
 - **開発環境:** [http://localhost/](http://localhost/)
 - **phpMyAdmin:** [http://localhost:8080/](http://localhost:8080/)
+
