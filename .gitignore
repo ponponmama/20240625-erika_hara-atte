@@ -1,8 +1,6 @@
 secrets/
-laravel_atte/
 docker/mysql/data/
 /src/vendor/
-/src/config/
 /src/storage/
 /src/bootstrap/cache/
 /src/node_modules/

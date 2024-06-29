@@ -9,7 +9,7 @@
         ホーム
     </a>
     <a href="/attendance">日付一覧</a>
-    <a href="{{ route('employees.index') }}">ユーザー一覧</a
+    <a href="{{ route('employees.index') }}">ユーザー一覧</a>
     <form action="{{ route('logout') }}" method="POST">
         @csrf
         <button class="logout_button" type="submit">
