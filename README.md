@@ -80,9 +80,9 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 ### 依存関係のインストール
 
-プロジェクトの依存関係をインストールします。
+- プロジェクトの依存関係をインストールします。
 
-```bash
+   bash
 
  　composer install
 
@@ -95,13 +95,13 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 1. プロジェクトをクローンします。
 2. `.env.example` をコピーして `.env` ファイルを作成し、環境に合わせて変数を設定します。
 
-```bash
+   bash
 
    cp .env.example .env
 
 3. 必要なディレクトリやファイルがない場合は、以下のコマンドでコンテナ内で作成します。
 
-```bash
+   bash
 
    cd docker/php
    docker-compose exec php bash
@@ -115,25 +115,25 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 4. Laravel アプリケーションのキーを生成します。
 
-```bash
+   bash
 
    php artisan key:generate
 
 5. コンテナから出ます。
 
-```bash
+   bash
 
    exit
 
 6. サーバーを起動します。Dockerを使用している場合は、以下のコマンドでビルドします。
 
-```bash
+   bash
 
    docker-compose up -d --build
 
 7. 設定をクリアします。
 
-```bash
+   bash
 
    php artisan config:clear
    php artisan cache:clear
