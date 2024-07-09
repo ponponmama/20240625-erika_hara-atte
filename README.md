@@ -65,17 +65,17 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 - 必要なディレクトリの作成、以下のディレクトリが存在しない場合は、作成してください。
 
- 　bash\
+ 　bash \
  　mkdir -p src/bootstrap/cache \
-        src/storage \
-        src/storage/framework/cache \
-        src/storage/framework/cache/data \
-        src/storage/framework/sessions \
-        src/storage/framework/testing \
-        src/storage/framework/views \
-        src/storage/logs \
-        src/storage/logs/app \
-        src/storage/logs/app/public
+            src/storage \
+            src/storage/framework/cache \
+            src/storage/framework/cache/data \
+            src/storage/framework/sessions \
+            src/storage/framework/testing \
+            src/storage/framework/views \
+            src/storage/logs \
+            src/storage/logs/app \
+            src/storage/logs/app/public
 
 ### 依存関係のインストール
 
