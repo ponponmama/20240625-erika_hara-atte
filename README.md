@@ -84,7 +84,7 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
    bash
 
- 　composer install
+   composer install
 
  **Dockerを使用している場合**
 
@@ -104,6 +104,7 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
    bash
 
    cd docker/php
+
    docker-compose exec php bash
 
   - 不足しているファイルやディレクトリの作成
@@ -111,6 +112,7 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
   - 権限の付与
 
    chown -R www-data:www-data /var/www/bootstrap/cache
+
    chmod -R 775 /var/www/bootstrap/cache
 
 4. Laravel アプリケーションのキーを生成します。
@@ -136,12 +138,14 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
    bash
 
    php artisan config:clear
+
    php artisan cache:clear
 
 
 8. データベース使用前には以下のコマンドでマイグレーションとシーディングを行ってください。
 
    php artisan migrate
+   
    php artisan db:seed
 
 ### URL
