@@ -61,14 +61,80 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 - **Docker**: 26.0.0
 - **Laravel Framework**: 8.83.27
 
-- ＊ご使用のPCに合わせて各種必要なファイル(.envやdocker-compose.yml等)は作成、編集してください。
+### インストールの方法
 
-- **1.docker-compose exec bash**
-- **2.composer install**
-- **3..env.exampleファイルから.envを作成し、環境変数を変更**
-- **4.php artisan key:generate**
-- **5.php artisan migrate**
-- **6.php artisan db:seed**
+- 必要なディレクトリの作成、以下のディレクトリが存在しない場合は、作成してください。
+
+ 　bash
+ 　mkdir -p src/bootstrap/cache
+ 　mkdir -p src/storage
+ 　mkdir -p src/storage/framework/cache
+ 　mkdir -p src/storage/framework/cache/data
+ 　mkdir -p src/storage/framework/sessions
+ 　mkdir -p src/storage/framework/testing
+ 　mkdir -p src/storage/framework/views
+ 　mkdir -p src/storage/logs
+ 　mkdir -p src/storage/logs/app
+ 　mkdir -p src/storage/logs/app/public
+
+### 依存関係のインストール
+
+プロジェクトの依存関係をインストールします。
+
+   bash
+ 　composer install
+
+ **Dockerを使用している場合**
+
+   docker-compose up -d --build
+
+## 環境設定
+
+1. プロジェクトをクローンします。
+2. `.env.example` をコピーして `.env` ファイルを作成し、環境に合わせて変数を設定します。
+
+   bash
+   cp .env.example .env
+
+3. 必要なディレクトリやファイルがない場合は、以下のコマンドでコンテナ内で作成します。
+
+   bash
+   cd docker/php
+   docker-compose exec php bash
+
+  - 不足しているファイルやディレクトリの作成
+
+  - 権限の付与
+
+   chown -R www-data:www-data /var/www/bootstrap/cache
+   chmod -R 775 /var/www/bootstrap/cache
+
+4. Laravel アプリケーションのキーを生成します。
+
+   bash
+   php artisan key:generate
+
+5. コンテナから出ます。
+
+   bash
+   exit
+
+6. サーバーを起動します。Dockerを使用している場合は、以下のコマンドでビルドします。
+
+   bash
+   docker-compose up -d --build
+
+7. 設定をクリアします。
+
+   bash
+   php artisan config:clear
+   php artisan cache:clear
+
+
+8. データベース使用前には以下のコマンドでマイグレーションとシーディングを行ってください。
+
+   php artisan migrate
+   php artisan db:seed
 
 ### URL
 - **開発環境:** [http://localhost/](http://localhost/)
