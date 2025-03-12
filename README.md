@@ -36,11 +36,11 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 - **AttendanceRecords テーブルと BreakTime テーブル**: AttendanceRecords テーブルの `id` と BreakTime テーブルの `attendance_record_id` を外部キーで関連付けることで、1対多の関係を形成します。これにより、一つの勤務記録に対して複数の休憩時間が記録されることが可能になります。
 
 ### アプリケーションURL
-- 勤怠管理システム「Atte」の会員登録ページはこちらからアクセスできます: [会員登録ページ](http://54.95.1.173/register)
+- 勤怠管理システム「Atte」の会員登録ページはこちらからアクセスできます: [会員登録ページ]()
 
 ### セキュリティ
 - パスワードは８文字以上で少なくとも一つの大文字が必要です。
-  
+
 ### 使用技術（実行環境）
 
 - **開発言語**: PHP
@@ -65,8 +65,8 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 - 必要なディレクトリの作成、以下のディレクトリが存在しない場合は、作成してください。
 
-```bash 
- 　mkdir -p src/bootstrap/cache \
+```bash
+mkdir -p src/bootstrap/cache \
             src/storage \
             src/storage/framework/cache \
             src/storage/framework/cache/data \
