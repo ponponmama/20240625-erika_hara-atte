@@ -35,9 +35,6 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 - **AttendanceRecords テーブルと BreakTime テーブル**: AttendanceRecords テーブルの `id` と BreakTime テーブルの `attendance_record_id` を外部キーで関連付けることで、1対多の関係を形成します。これにより、一つの勤務記録に対して複数の休憩時間が記録されることが可能になります。
 
-### アプリケーションURL
-- 勤怠管理システム「Atte」の会員登録ページはこちらからアクセスできます: [会員登録ページ]()
-
 ### セキュリティ
 - パスワードは８文字以上で少なくとも一つの大文字が必要です。
 
@@ -55,15 +52,77 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 ### 環境構築
 
-- **PHP**: 8.3.0
-- **MySQL**: 8.0.26
-- **Composer**: 2.2.6
-- **Docker**: 26.0.0
+- **PHP**: 7.4.9
+- **MySQL**: 10.11.6-MariaDB
+- **Composer**: 2.8.5
+- **Docker**: 27.4.0
 - **Laravel Framework**: 8.83.27
 
-### インストールの方法
+- ＊ご使用の PC に合わせて各種必要なファイル(.env や docker-compose.yml 等)は作成、編集してください。
 
-- 必要なディレクトリの作成、以下のディレクトリが存在しない場合は、作成してください。
+- **1.docker-compose exec bash**
+- **2.composer install**
+- **3..env.example ファイルから.env を作成し、環境変数を変更**
+- **4.php artisan key:generate**
+- **5.php artisan migrate**
+- **6.php artisan db:seed**
+
+####クローン作製手順
+
+1. GitHub リポジトリのクローン
+
+```bash
+git clone https://github.com/ponponmama/20240625-erika_hara-atte.git
+```
+
+```bash
+cd 20240625-erika_hara-atte
+```
+
+2. 必要なパッケージのインストール
+
+```bash
+sudo apt-get update
+```
+Docker コンテナのビルドと起動
+
+```bash
+docker-compose up -d --build
+```
+
+3. Composer を使用した依存関係のインストール
+
+- Docker 環境で PHP コンテナに入り、依存関係をインストールします。
+
+```bash
+docker-compose exec php bash
+```
+
+```bash
+composer install
+```
+
+4. 環境設定ファイルの設定
+
+- .env.example ファイルを .env としてコピーし、必要に応じてデータベースなどの設定を行います。
+
+```bash
+cp .env.example .env
+```
+
+- 環境設定を更新した後、設定キャッシュをクリアするために以下のコマンドを実行します。これにより、新しい設定がアプリケーションに反映されます。
+
+```bash
+docker-compose exec php bash
+```
+
+```bash
+php artisan config:clear
+```
+
+この手順は、特に環境変数が更新された後や、`.env` ファイルに重要な変更を加えた場合に重要です。設定キャッシュをクリアすることで、古い設定が引き続き使用されることを防ぎます。
+
+
 
 ```bash
 mkdir -p src/bootstrap/cache \
