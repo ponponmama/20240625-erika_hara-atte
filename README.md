@@ -92,7 +92,44 @@ docker-compose up -d --build
 
 3. Composer を使用した依存関係のインストール
 
-- Docker 環境で PHP コンテナに入り、依存関係をインストールします。
+- githubからクローンを作成するといくつかのフォルダが足りません。srcにsetup.shを作成してあります。プロジェクトはフレームワーク内にインストールするので、先にフォルダ作成お願いします。
+
+- 3-1. コンテナに入ります。
+
+```bash
+docker-compose exec php bash
+```
+
+- 3-2. スクリプトに実行権限を付与します。
+
+```bash
+chmod +x setup.sh
+```
+
+```bash
+./setup.sh
+```
+- 以下のフォルダが作成されます
+
+```
+      bootstrap/cache \
+      storage
+      storage/framework/cache
+      storage/framework/cache/data
+      storage/framework/sessions
+      storage/framework/testing
+      storage/framework/views
+      storage/logs
+      storage/logs/app
+      storage/logs/app/public
+```
+```
+echo "ディレクトリが正常に作成されました。" ← このメッセージが出ます。
+```
+
+
+
+- 3-3 Docker 環境で PHP コンテナに入り、依存関係をインストールします。
 
 ```bash
 docker-compose exec php bash
@@ -122,90 +159,23 @@ php artisan config:clear
 
 この手順は、特に環境変数が更新された後や、`.env` ファイルに重要な変更を加えた場合に重要です。設定キャッシュをクリアすることで、古い設定が引き続き使用されることを防ぎます。
 
+4. アプリケーションキーの生成
 
-
-```bash
-mkdir -p src/bootstrap/cache \
-            src/storage \
-            src/storage/framework/cache \
-            src/storage/framework/cache/data \
-            src/storage/framework/sessions \
-            src/storage/framework/testing \
-            src/storage/framework/views \
-            src/storage/logs \
-            src/storage/logs/app \
-            src/storage/logs/app/public
+ ```bash
+php artisan key:generate
 ```
 
-### 依存関係のインストール
+5. データベースのマイグレーション
 
-- プロジェクトの依存関係をインストールします。
+```bash
+php artisan migrate
+```
+6. データベースシーダーの実行
 
-   bash
+```bash
+php artisan db:seed
+```
 
-   composer install
-
- **Dockerを使用している場合**
-
-   docker-compose up -d --build
-
-## 環境設定
-
-1. プロジェクトをクローンします。
-2. `.env.example` をコピーして `.env` ファイルを作成し、環境に合わせて変数を設定します。
-
-   bash
-
-   cp .env.example .env
-
-3. 必要なディレクトリやファイルがない場合は、以下のコマンドでコンテナ内で作成します。
-
-   bash
-
-   cd docker/php
-
-   docker-compose exec php bash
-
-  - 不足しているファイルやディレクトリの作成
-
-  - 権限の付与
-
-   chown -R www-data:www-data /var/www/bootstrap/cache
-
-   chmod -R 775 /var/www/bootstrap/cache
-
-4. Laravel アプリケーションのキーを生成します。
-
-   bash
-
-   php artisan key:generate
-
-5. コンテナから出ます。
-
-   bash
-
-   exit
-
-6. サーバーを起動します。Dockerを使用している場合は、以下のコマンドでビルドします。
-
-   bash
-
-   docker-compose up -d --build
-
-7. 設定をクリアします。
-
-   bash
-
-   php artisan config:clear
-
-   php artisan cache:clear
-
-
-8. データベース使用前には以下のコマンドでマイグレーションとシーディングを行ってください。
-
-   php artisan migrate
-   
-   php artisan db:seed
 
 ### URL
 - **開発環境:** [http://localhost/](http://localhost/)
