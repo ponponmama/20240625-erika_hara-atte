@@ -60,12 +60,6 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 - ＊ご使用の PC に合わせて各種必要なファイル(.env や docker-compose.yml 等)は作成、編集してください。
 
-- **1.docker-compose exec bash**
-- **2.composer install**
-- **3..env.example ファイルから.env を作成し、環境変数を変更**
-- **4.php artisan key:generate**
-- **5.php artisan migrate**
-- **6.php artisan db:seed**
 
 ####クローン作製手順
 
@@ -124,7 +118,7 @@ chmod +x setup.sh
       storage/logs/app/public
 ```
 ```
-echo "ディレクトリが正常に作成されました。" ← このメッセージが出ます。
+"ディレクトリが正常に作成されました。" ← このメッセージが出ます。
 ```
 
 
