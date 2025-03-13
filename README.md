@@ -132,6 +132,7 @@ docker-compose exec php bash
 ```bash
 composer install
 ```
+<br>
 
 4. 環境設定ファイルの設定
 
