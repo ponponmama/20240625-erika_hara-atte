@@ -120,8 +120,9 @@ chmod +x setup.sh
 
 <br>
 ####  "ディレクトリが正常に作成されました。" ← このメッセージが出ます。<br>
+<br>
 
-- 3-3 Docker 環境で PHP コンテナに入り、依存関係をインストールします。
+- 3-3 Docker 環境で PHP コンテナに入り、依存関係をインストールします。<br>
 
 ```bash
 docker-compose exec php bash
