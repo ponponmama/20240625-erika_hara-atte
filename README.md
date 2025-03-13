@@ -117,9 +117,9 @@ chmod +x setup.sh
       storage/logs/app
       storage/logs/app/public
 ```
-```
-"ディレクトリが正常に作成されました。" ← このメッセージが出ます。
-```
+
+#### "ディレクトリが正常に作成されました。" ← このメッセージが出ます。
+
 
 
 
