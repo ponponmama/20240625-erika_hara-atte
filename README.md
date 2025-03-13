@@ -171,6 +171,68 @@ php artisan migrate
 php artisan db:seed
 ```
 
+### メール設定
+
+プロジェクトでは開発環境でのメール送信のテストに Mailtrap を使用しています。
+
+![Mailtrapのホームページ](mailtrap_home.png)
+
+**1.アカウント作成***
+`https://mailtrap.io/` のサイトからサインアップタブをクリックし、アカウント作成します。
+
+![サインアップ画面](image-1.png)
+![サインアップ画面](image.png)
+
+**2. Start testingのクリック**
+赤枠の部分のStart testingをクリックします。もしくは、左サイドバーで「Email Testing」＞「Inboxes」をクリックします。
+
+![Start testingボタン](image-2.png)
+
+**3. Inbox画面への移動**
+Inbox画面に移動したら、Integrationsのセレクトボックスをクリックしてください。
+
+![Inbox画面](image-3.png)
+
+**4. フレームワークの選択**
+使用しているフレームワーク等を選びます。Laravel8を使っていたのでLaravel 8.xを選びました。
+
+![フレームワーク選択画面](image-4.png)
+
+**5. Laravelの設定**
+laravel 8.xを選択したら、Laravel8の設定をクリックします。
+![Laravel設定画面](image-5.png)
+
+**6. .env設定のコピー**
+Laravelを選択した場合は以下のように.envに貼り付ける用のコードが出ますので、コピーします。
+
+![.env設定コード](image-6.png)
+
+**7. .envファイルへの設定追加**
+
+下の設定を `.env` ファイルに追加してください。これにより、開発中のメール送信を安全にテストすることができます。
+
+- `MAIL_MAILER`: メールドライバー（例: smtp, sendmail）
+- `MAIL_HOST`: メールサーバーのホスト名
+- `MAIL_PORT`: メールサーバーのポート番号
+- `MAIL_USERNAME`: メールサーバーのユーザー名
+- `MAIL_PASSWORD`: メールサーバーのパスワード
+- `MAIL_ENCRYPTION`: メール送信の暗号化方式（例: tls, ssl）
+- `MAIL_FROM_NAME`: メール送信時の差出人名（環境変数 `APP_NAME` を使用する場合もあり）
+
+```plaintext
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_username # Mailtrapのユーザー名をここに入力
+MAIL_PASSWORD=your_mailtrap_password # Mailtrapのパスワードをここに入力
+MAIL_ENCRYPTION=tls
+MAIL_FROM_NAME="${APP_NAME}" # アプリケーション名を使用する場合
+MAIL_LOG_CHANNEL=stack
+```
+
+この設定を適用後、アプリケーションからのメールは Mailtrap の仮想 SMTP サーバーを通じて送信され、実際には配信されずに Mailtrap のダッシュボードで確認することができます。
+
+
 
 ### URL
 - **開発環境:** [http://localhost/](http://localhost/)
