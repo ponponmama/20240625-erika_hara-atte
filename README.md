@@ -107,21 +107,20 @@ chmod +x setup.sh
 
 ```
       bootstrap/cache \
-      storage
-      storage/framework/cache
-      storage/framework/cache/data
-      storage/framework/sessions
-      storage/framework/testing
-      storage/framework/views
-      storage/logs
-      storage/logs/app
-      storage/logs/app/public
+      storage \
+      storage/framework/cache \
+      storage/framework/cache/data \
+      storage/framework/sessions \
+      storage/framework/testing \
+      storage/framework/views \
+      storage/logs \
+      storage/logs/app \
+      storage/logs/app/public \
 ```
 
 
 
 ####  "ディレクトリが正常に作成されました。" ← このメッセージが出ます。
-
 
 
 - 3-3 Docker 環境で PHP コンテナに入り、依存関係をインストールします。
