@@ -124,6 +124,7 @@ chmod +x setup.sh
 
 
 <br>
+
 - 3-3 Docker 環境で PHP コンテナに入り、依存関係をインストールします。
 
 ```bash
