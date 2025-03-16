@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\AttendanceRecord;
 use App\Models\AttendanceSession;
 use App\Models\BreakTime;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
@@ -47,7 +46,7 @@ class AttendanceController extends Controller
 
         return view('index', compact('status'));
     }
-    
+
     public function startWork(Request $request)
     {
         $user = Auth::user();
@@ -131,9 +130,9 @@ class AttendanceController extends Controller
         $record = $this->getCurrentAttendanceRecord($user, $today);
         if ($record && !$record->work_end_time) {
             $break = BreakTime::where('attendance_record_id', $record->id)
-                              ->whereNull('break_end_time')
-                              ->latest()
-                              ->first();
+                            ->whereNull('break_end_time')
+                            ->latest()
+                            ->first();
             if ($break) {
                 if ($now->toDateString() > $break->break_start_time->toDateString()) {
                     $this->handleCrossDay($record, $now, 'break');
@@ -157,9 +156,9 @@ class AttendanceController extends Controller
 
     private function getCurrentAttendanceRecord($user, $date) {
         return AttendanceRecord::where('user_id', $user->id)
-                               ->whereDate('date', $date)
-                               ->latest()
-                               ->first();
+                            ->whereDate('date', $date)
+                            ->latest()
+                            ->first();
     }
 
 
@@ -198,13 +197,13 @@ class AttendanceController extends Controller
 
         return response()->json(['message' => 'Handled cross day successfully']);
     }
-    
-    private function updateAttendanceSession($record)
+
+    public function updateAttendanceSession($record)
     {
-        \Log::info("updateAttendanceSession called with record: {$record->id}");
+        Log::info("updateAttendanceSession called with record: {$record->id}");
 
         if (!$record) {
-            \Log::info("No record found for updating session.");
+            Log::info("No record found for updating session.");
             return;
         }
 
@@ -239,7 +238,7 @@ class AttendanceController extends Controller
         }
 
         $session->save();  // セッションを保存
-        \Log::info("Session updated: {$session->id}, Work Duration: {$session->work_duration}, Break Duration: {$session->break_duration}");
+        Log::info("Session updated: {$session->id}, Work Duration: {$session->work_duration}, Break Duration: {$session->break_duration}");
     }
 
     public function showAttendanceIndex()
@@ -252,7 +251,7 @@ class AttendanceController extends Controller
     {
         $dateBasedSessions = AttendanceSession::where(function ($query) use ($date) {
             $query->whereDate('work_start_time', '<=', $date)
-                  ->whereDate('work_end_time', '>=', $date);
+                ->whereDate('work_end_time', '>=', $date);
         })->paginate(5);
 
         return view('attendance', compact('dateBasedSessions', 'date'));

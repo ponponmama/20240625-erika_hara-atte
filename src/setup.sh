@@ -9,4 +9,10 @@ mkdir -p bootstrap/cache \
         storage/logs/app \
         storage/logs/app/public
 
-echo "ディレクトリが正常に作成されました。"
+# コンテナ内で実行されるため、sudoは不要
+chown -R www-data:www-data storage
+
+# 必要な権限を設定
+chmod -R 775 storage
+
+echo "ディレクトリが正常に作成され、必要な権限が設定されました。"

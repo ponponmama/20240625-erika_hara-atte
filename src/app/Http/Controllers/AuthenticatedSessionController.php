@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AtteLoginRequest;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +13,7 @@ class AuthenticatedSessionController extends Controller
         return view('login');
     }
 
-    public function store(AtteLoginRequest $request)
+    public function store(LoginRequest $request)
     {
         $credentials = $request->validate([
         'email' => ['required', 'email'],
@@ -22,9 +22,8 @@ class AuthenticatedSessionController extends Controller
 
         if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
-
         // メール認証が完了しているか確認
-        if (!Auth::user()->hasVerifiedEmail()) {
+        if (!Auth::user()->email_verified_at) {
             Auth::logout();
             return back()->withErrors([
                 'email' => 'メールアドレスが認証されていません。',
@@ -35,7 +34,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         return back()->withErrors([
-        'email' => '指定された認証情報が記録と一致しません。',
+            'email' => 'メールアドレス違います',
         ]);
     }
 

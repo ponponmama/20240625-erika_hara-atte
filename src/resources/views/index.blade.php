@@ -25,7 +25,7 @@
         </div>
         @if (session('action'))
         <div class="alert alert-info">
-           {{ session('action') }}
+            {{ session('action') }}
         </div>
         @endif
         @if (session('status'))
@@ -80,5 +80,5 @@
                 </form>
             </div>
         </div>
-    </div>   
+    </div>
     @endsection

@@ -43,7 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-     /**
+    /**
      * Send the email verification notification.
      *
      * @return void
@@ -61,5 +61,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function attendanceSessions()
     {
         return $this->hasMany(AttendanceSession::class);
+    }
+
+    public function hasVerifiedEmail()
+    {
+        return !is_null($this->email_verified_at);
     }
 }

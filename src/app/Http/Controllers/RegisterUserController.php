@@ -26,7 +26,7 @@ class RegisterUserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-        
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -37,7 +37,6 @@ class RegisterUserController extends Controller
         Auth::login($user);
 
         // メール認証通知を送信
-        //$user->sendEmailVerificationNotification();
 
         return redirect()->route('verification.notice');
     }

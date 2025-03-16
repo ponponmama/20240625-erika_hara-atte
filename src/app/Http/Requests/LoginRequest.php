@@ -3,36 +3,27 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
-class AtteLoginRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
-        \Log::info('Validating login request', $this->all());
+        Log::info('Validating login request', $this->all());
         return [
-            'email' => ['required',  'email', 'max:191'],
+            'email' => ['required', 'email', 'max:191'],
             'password' => ['required', 'string', 'min:8', 'max:191', 'regex:/[A-Z]/'],
         ];
     }
 
-        public function messages()
-    {   
-       return [
+    public function messages()
+    {
+        return [
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' => '有効なメールアドレスを入力してください。',
             'email.max' => 'メールアドレスは191文字以内で入力してください。',
@@ -42,5 +33,4 @@ class AtteLoginRequest extends FormRequest
             'password.regex' => 'パスワードには少なくとも一つの大文字が含まれている必要があります。',
         ];
     }
-
 }
