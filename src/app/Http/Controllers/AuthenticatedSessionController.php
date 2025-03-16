@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'メールアドレス違います',
+            'email' => 'メールアドレスが違います',
         ]);
     }
 
