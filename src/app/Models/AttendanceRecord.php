@@ -17,6 +17,11 @@ class AttendanceRecord extends Model
         'work_end_time',
     ];
 
+    protected $dates = [
+        'work_start_time',
+        'work_end_time'
+    ];
+
     protected $casts = [
         'work_start_time' => 'datetime',
         'work_end_time' => 'datetime',
@@ -29,7 +34,7 @@ class AttendanceRecord extends Model
 
     public function breakTimes()
     {
-        return $this->hasMany(BreakTime::class);
+        return $this->hasMany(BreakTime::class, 'attendance_record_id');
     }
 
     public function getTotalBreakDuration()

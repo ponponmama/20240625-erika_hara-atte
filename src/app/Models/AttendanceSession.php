@@ -25,11 +25,15 @@ class AttendanceSession extends Model
         'work_duration' => 'integer',
     ];
 
-        public function user()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    public function attendanceRecord()
+    {
+        return $this->belongsTo(AttendanceRecord::class, ['user_id', 'date'], ['user_id', 'date']);
+    }
 
     // フォーマットされた休憩時間を取得
     public function getFormattedBreakDurationAttribute()
@@ -42,5 +46,4 @@ class AttendanceSession extends Model
     {
         return gmdate('H:i:s', $this->work_duration);
     }
-
 }

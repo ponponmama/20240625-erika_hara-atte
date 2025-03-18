@@ -8,6 +8,8 @@ use App\Models\AttendanceSession;
 use App\Models\AttendanceRecord;
 use App\Models\BreakTime;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -81,7 +83,7 @@ class DatabaseSeeder extends Seeder
         // 日をまたぐ場合の勤務時間計算
         $workDurationMinutes = $endTime->diffInMinutes($startTime);
         if ($endTime->lessThan($startTime)) {
-             \Log::info("Work spans over midnight. Adjusting times.");
+            Log::info("Work spans over midnight. Adjusting times.");
             $workDurationMinutes += 1440; // 24時間分の分を加算
         }
         // 休憩時間を勤務時間から差し引く

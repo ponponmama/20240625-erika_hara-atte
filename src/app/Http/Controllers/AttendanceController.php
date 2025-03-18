@@ -2,258 +2,244 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AttendanceRecord;
-use App\Models\AttendanceSession;
 use App\Models\BreakTime;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
+    public function showAttendanceIndex()
+    {
+        $today = Carbon::now()->toDateString();
+        return redirect()->route('attendance.show', ['date' => $today]);
+    }
+
     public function index()
     {
         $user = Auth::user();
-        $now = Carbon::now();
-        $today = $now->format('Y-m-d');
+        $today = Carbon::now()->toDateString();
+        $attendance = $this->getCurrentAttendance($user->id, $today);
 
-        $currentRecord = $this->getCurrentAttendanceRecord($user, $today);
-        $status = 0; // デフォルトは「勤務未開始」
-
-        if ($currentRecord) {
-        if ($currentRecord->date != $today) {
-                $this->handleCrossDay($currentRecord, $now, $currentRecord->work_end_time ? 'work' : 'break');
-            } else {
-                // 休憩中かどうかを確認
-                $currentBreak = $currentRecord->breakTimes()->whereNull('break_end_time')->first();
-                if ($currentRecord->work_start_time && !$currentRecord->work_end_time) {
-                    if ($currentBreak) {
-                        $status = 2; // 休憩中
-                        session()->put('action', '休憩中'); // セッションに「休憩中」を設定
-                    } else {
-                        $status = 1; // 勤務中
-                        session()->put('action', '勤務中'); // セッションに「勤務中」を設定
-                    }
-                } elseif ($currentRecord->work_end_time) {
-                    $status = 3; // 勤務終了
-                    session()->put('action', '勤務終了'); // セッションに「勤務終了」を設定
-                }
-            }
-        } else {
-            session()->put('action', '勤務未開始'); // セッションに「勤務未開始」を設定
-        }
-
+        $status = $this->getStatus($attendance);
         return view('index', compact('status'));
     }
 
-    public function startWork(Request $request)
+    private function getStatus($attendance)
     {
-        $user = Auth::user();
-        $now = Carbon::now();
-        $today = $now->toDateString();
+        if (!$attendance) {
+            session()->put('action', '勤務未開始');
+            return 0;
+        }
 
-        $record = $this->getCurrentAttendanceRecord($user, $today);
-        if (!$record) {
-            $record = new AttendanceRecord([
+        if ($attendance->work_end_time) {
+            session()->put('action', '勤務終了');
+            return 3;
+        }
+
+        $currentBreak = $attendance->breakTimes()
+            ->whereNull('break_end_time')
+            ->first();
+
+        if ($currentBreak) {
+            session()->put('action', '休憩中');
+            return 2;
+        }
+
+        session()->put('action', '勤務中');
+        return 1;
+    }
+
+    public function startWork()
+    {
+        try {
+            $user = Auth::user();
+            $today = Carbon::now()->toDateString();
+
+            Log::info('勤務開始処理開始', [
+                'user_id' => $user->id,
+                'date' => $today
+            ]);
+
+            if ($this->getCurrentAttendance($user->id, $today)) {
+                Log::warning('既に勤務開始済み', [
+                    'user_id' => $user->id,
+                    'date' => $today
+                ]);
+                return back()->with('error', '既に勤務が開始されています。');
+            }
+
+            $record = AttendanceRecord::create([
                 'user_id' => $user->id,
                 'date' => $today,
-                'work_start_time' => $now,
+                'work_start_time' => Carbon::now()
             ]);
-            $record->save();
-            $this->updateAttendanceSession($record);
-            session()->forget('action');
-            session()->put('action', '勤務中');
+
+            Log::info('勤務開始レコード作成成功', [
+                'record_id' => $record->id,
+                'user_id' => $record->user_id,
+                'date' => $record->date,
+                'work_start_time' => $record->work_start_time
+            ]);
 
             return back()->with('status', '勤務を開始しました。');
-        } else {
-            return back()->with('error', '既に勤務が開始されています。');
-        }
-    }
-
-    public function endWork(Request $request)
-    {
-        $user = Auth::user();
-        $now = Carbon::now();
-        $today = $now->toDateString();
-
-        $record = $this->getCurrentAttendanceRecord($user, $today);
-        if ($record) {
-            if (!$record->work_end_time) {
-                if ($now->toDateString() > $record->work_start_time->toDateString()) {
-                    $this->handleCrossDay($record, $now, 'work');
-                    $record->refresh();
-                } else {
-                    $record->work_end_time = $now;
-                    $record->save();
-                    $this->updateAttendanceSession($record);
-                }
-                session()->forget('action');
-                session()->put('action', '勤務終了');
-                return back()->with('status', '勤務を終了しました。');
-            } else {
-                return back()->with('error', '勤務終了時間は既に設定されています。');
-            }
-        } else {
-            return back()->with('error', '勤務が開始されていないか、既に終了しています。');
-        }
-    }
-
-    public function startBreak(Request $request)
-    {
-        $user = Auth::user();
-        $now = Carbon::now();
-        $today = $now->toDateString();
-
-        $record = $this->getCurrentAttendanceRecord($user, $today);
-        if ($record && !$record->work_end_time) {
-            $break = new BreakTime([
-                'attendance_record_id' => $record->id,
-                'break_start_time' => $now,
+        } catch (\Exception $e) {
+            Log::error('勤務開始処理でエラー発生', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
             ]);
-            $break->save();
-            session()->forget('action');
-            session()->put('action', '休憩中');
-
-            return back()->with('status', '休憩を開始しました。');
-        } else {
-            return back()->with('error', '勤務が開始されていないか、既に終了しています。');
+            return back()->with('error', '勤務開始処理でエラーが発生しました。');
         }
     }
 
-    public function endBreak(Request $request)
+    public function endWork()
     {
         $user = Auth::user();
-        $now = Carbon::now();
-        $today = $now->toDateString();
+        $today = Carbon::now()->toDateString();
+        $attendance = $this->getCurrentAttendance($user->id, $today);
 
-        $record = $this->getCurrentAttendanceRecord($user, $today);
-        if ($record && !$record->work_end_time) {
-            $break = BreakTime::where('attendance_record_id', $record->id)
-                            ->whereNull('break_end_time')
-                            ->latest()
-                            ->first();
-            if ($break) {
-                if ($now->toDateString() > $break->break_start_time->toDateString()) {
-                    $this->handleCrossDay($record, $now, 'break');
-                    $break->refresh();
-                } else {
-                    $break->break_end_time = $now;
-                    $break->save();
-                }
-                session()->forget('action');
-                session()->put('action', '勤務中');
-
-                return back()->with('status', '休憩を終了しました。');
-            } else {
-                return back()->with('error', '開始されている休憩がありません。');
-            }
-        } else {
+        if (!$attendance || $attendance->work_end_time) {
             return back()->with('error', '勤務が開始されていないか、既に終了しています。');
         }
+
+        $attendance->work_end_time = Carbon::now();
+        $attendance->save();
+
+        return back()->with('status', '勤務を終了しました。');
     }
 
-
-    private function getCurrentAttendanceRecord($user, $date) {
-        return AttendanceRecord::where('user_id', $user->id)
-                            ->whereDate('date', $date)
-                            ->latest()
-                            ->first();
-    }
-
-
-    public function handleCrossDay($record, $endTime, $type)
+    public function startBreak()
     {
-        // 勤務時間が日を跨いでいるか確認
-        if ($endTime->isNextDay($record->work_start_time)) {
-            // 前日の勤務終了時間を23:59:59に設定
-            $record->work_end_time = $record->work_start_time->copy()->endOfDay();
-            $record->save();
+        $user = Auth::user();
+        $today = Carbon::now()->toDateString();
+        $attendance = $this->getCurrentAttendance($user->id, $today);
 
-            // 新しい日の勤務記録を作成
-            $newRecord = new AttendanceRecord([
-                'user_id' => $record->user_id,
-                'date' => $endTime->toDateString(),
-                'work_start_time' => $endTime->copy()->startOfDay(),
-                $type === 'work' ? 'work_end_time' : 'work_start_time' => $endTime
-            ]);
-            $newRecord->save();
+        if (!$attendance || $attendance->work_end_time) {
+            return back()->with('error', '勤務が開始されていないか、既に終了しています。');
         }
 
-        // 休憩時間が日を跨いでいるか確認
-        foreach ($record->breakTimes as $breakTime) {
-            if ($breakTime->break_end_time && $breakTime->break_end_time->isNextDay($breakTime->break_start_time)) {
-                $breakTime->break_end_time = $breakTime->break_start_time->copy()->endOfDay();
-                $breakTime->save();
-
-                $newBreakTime = new BreakTime([
-                    'attendance_record_id' => $record->id,
-                    'break_start_time' => $endTime->copy()->startOfDay(),
-                    'break_end_time' => $breakTime->break_end_time
-                ]);
-                $newBreakTime->save();
-            }
+        if ($attendance->breakTimes()->whereNull('break_end_time')->exists()) {
+            return back()->with('error', '既に休憩中です。');
         }
 
-        return response()->json(['message' => 'Handled cross day successfully']);
-    }
-
-    public function updateAttendanceSession($record)
-    {
-        Log::info("updateAttendanceSession called with record: {$record->id}");
-
-        if (!$record) {
-            Log::info("No record found for updating session.");
-            return;
-        }
-
-        $session = AttendanceSession::firstOrNew([
-            'user_id' => $record->user_id,
-            'date' => $record->date,
+        BreakTime::create([
+            'attendance_record_id' => $attendance->id,
+            'break_start_time' => Carbon::now()
         ]);
 
-        $session->work_start_time = $record->work_start_time;
-        $session->work_end_time = $record->work_end_time;
-
-        $totalBreakDuration = $record->breakTimes()->get()->reduce(function ($carry, $breakTime) {
-            $start = Carbon::parse($breakTime->break_start_time);
-            $end = $breakTime->break_end_time ? Carbon::parse($breakTime->break_end_time) : Carbon::now();
-            return $carry + $end->diffInSeconds($start);
-        }, 0);
-
-        $session->break_duration = $totalBreakDuration;
-
-        if ($session->work_start_time && $session->work_end_time) {
-            $workStart = Carbon::parse($session->work_start_time);
-            $workEnd = Carbon::parse($session->work_end_time);
-
-            if ($workEnd->lessThan($workStart)) {
-                $workEnd->addDay();  // 翌日の同時刻として扱う
-            }
-
-            $totalWorkDuration = $workEnd->diffInSeconds($workStart);
-            $session->work_duration = $totalWorkDuration - $totalBreakDuration;
-        } else {
-            $session->work_duration = 0;
-        }
-
-        $session->save();  // セッションを保存
-        Log::info("Session updated: {$session->id}, Work Duration: {$session->work_duration}, Break Duration: {$session->break_duration}");
+        return back()->with('status', '休憩を開始しました。');
     }
 
-    public function showAttendanceIndex()
+    public function endBreak()
     {
-        $date = Carbon::today()->format('Y-m-d');
-        return redirect()->route('attendance.show', ['date' => $date]);
+        $user = Auth::user();
+        $today = Carbon::now()->toDateString();
+        $attendance = $this->getCurrentAttendance($user->id, $today);
+
+        if (!$attendance || $attendance->work_end_time) {
+            return back()->with('error', '勤務が開始されていないか、既に終了しています。');
+        }
+
+        $break = $attendance->breakTimes()
+            ->whereNull('break_end_time')
+            ->latest()
+            ->first();
+
+        if (!$break) {
+            return back()->with('error', '開始されている休憩がありません。');
+        }
+
+        $break->break_end_time = Carbon::now();
+        $break->save();
+
+        return back()->with('status', '休憩を終了しました。');
+    }
+
+    private function getCurrentAttendance($userId, $date)
+    {
+        Log::info('getCurrentAttendance呼び出し', [
+            'user_id' => $userId,
+            'date' => $date
+        ]);
+
+        $record = AttendanceRecord::where('user_id', $userId)
+            ->whereDate('date', $date)
+            ->latest()
+            ->first();
+
+        Log::info('getCurrentAttendance結果', [
+            'found' => $record ? 'yes' : 'no',
+            'record' => $record
+        ]);
+
+        return $record;
     }
 
     public function show($date)
     {
-        $dateBasedSessions = AttendanceSession::where(function ($query) use ($date) {
-            $query->whereDate('work_start_time', '<=', $date)
-                ->whereDate('work_end_time', '>=', $date);
-        })->paginate(5);
+        Log::info('show method called with date:', ['date' => $date]);
 
-        return view('attendance', compact('dateBasedSessions', 'date'));
+        // AttendanceRecordから直接データを取得
+        $attendances = AttendanceRecord::whereDate('date', $date)
+            ->with(['user', 'breakTimes'])
+            ->orderBy('work_start_time', 'desc')
+            ->paginate(5);
+
+        Log::info('Retrieved attendance records:', [
+            'count' => $attendances->count(),
+            'total' => $attendances->total(),
+            'items' => $attendances->items()
+        ]);
+
+        foreach ($attendances as $attendance) {
+            // 現在進行中の休憩を取得
+            $currentBreak = $attendance->breakTimes()
+                ->whereNull('break_end_time')
+                ->first();
+
+            // 終了した休憩の合計時間を計算
+            $breakDuration = $attendance->breakTimes()
+                ->whereNotNull('break_end_time')
+                ->get()
+                ->sum(function ($break) {
+                    return Carbon::parse($break->break_end_time)
+                        ->diffInSeconds(Carbon::parse($break->break_start_time));
+                });
+
+            // 現在進行中の休憩時間を加算
+            if ($currentBreak) {
+                $breakStart = Carbon::parse($currentBreak->break_start_time);
+                $breakDuration += Carbon::now()->diffInSeconds($breakStart);
+            }
+
+            // 勤務時間の計算
+            if ($attendance->work_start_time) {
+                $workStart = Carbon::parse($attendance->work_start_time);
+                $workEnd = $attendance->work_end_time
+                    ? Carbon::parse($attendance->work_end_time)
+                    : Carbon::now();
+
+                $workDuration = $workEnd->diffInSeconds($workStart);
+                $attendance->work_duration = max(0, $workDuration - $breakDuration);
+            } else {
+                $attendance->work_duration = 0;
+            }
+
+            $attendance->break_duration = $breakDuration;
+            $attendance->is_breaking = $currentBreak !== null;
+
+            Log::info('Processed attendance record:', [
+                'id' => $attendance->id,
+                'user' => $attendance->user->name,
+                'work_start' => $attendance->work_start_time,
+                'work_end' => $attendance->work_end_time,
+                'break_duration' => $attendance->break_duration,
+                'work_duration' => $attendance->work_duration,
+                'is_breaking' => $attendance->is_breaking
+            ]);
+        }
+
+        return view('attendance', compact('attendances', 'date'));
     }
 }

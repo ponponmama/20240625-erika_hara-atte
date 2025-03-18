@@ -15,9 +15,9 @@ class CreateAttendanceRecordsTable extends Migration
     {
         Schema::create('attendance_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('user_id');
             $table->date('date');
-            $table->timestamp('work_start_time');
+            $table->timestamp('work_start_time')->nullable();
             $table->timestamp('work_end_time')->nullable();
             $table->timestamps();
         });
