@@ -355,3 +355,27 @@
 [2025-03-19 15:08:50] local.INFO: Validating login request {"_token":"X3HP39MkidGyii2T7ySxyBs06du9CnmEzN7Zx8dv","email":"tama@test.com","password":"Tamapass"} 
 [2025-03-19 15:11:26] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
 [2025-03-19 15:11:26] local.INFO: getCurrentAttendance結果 {"found":"no","record":null} 
+[2025-03-19 15:11:53] local.INFO: Employee attendance show method called: {"user_id":"1","date":"2025-03-19"} 
+[2025-03-19 15:11:54] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:11:54] local.INFO: getCurrentAttendance結果 {"found":"no","record":null} 
+[2025-03-19 15:11:56] local.INFO: 勤務開始処理開始 {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:11:56] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:11:56] local.INFO: getCurrentAttendance結果 {"found":"no","record":null} 
+[2025-03-19 15:11:56] local.INFO: 勤務開始レコード作成成功 {"record_id":1,"user_id":1,"date":"2025-03-19","work_start_time":"2025-03-19 15:11:56"} 
+[2025-03-19 15:11:56] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:11:56] local.INFO: getCurrentAttendance結果 {"found":"yes","record":{"App\\Models\\AttendanceRecord":{"id":1,"user_id":1,"date":"2025-03-19","work_start_time":"2025-03-19T06:11:56.000000Z","work_end_time":null,"created_at":"2025-03-19T06:11:56.000000Z","updated_at":"2025-03-19T06:11:56.000000Z"}}} 
+[2025-03-19 15:12:00] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:12:00] local.INFO: getCurrentAttendance結果 {"found":"yes","record":{"App\\Models\\AttendanceRecord":{"id":1,"user_id":1,"date":"2025-03-19","work_start_time":"2025-03-19T06:11:56.000000Z","work_end_time":null,"created_at":"2025-03-19T06:11:56.000000Z","updated_at":"2025-03-19T06:11:56.000000Z"}}} 
+[2025-03-19 15:12:00] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:12:00] local.INFO: getCurrentAttendance結果 {"found":"yes","record":{"App\\Models\\AttendanceRecord":{"id":1,"user_id":1,"date":"2025-03-19","work_start_time":"2025-03-19T06:11:56.000000Z","work_end_time":null,"created_at":"2025-03-19T06:11:56.000000Z","updated_at":"2025-03-19T06:11:56.000000Z"}}} 
+[2025-03-19 15:12:05] local.INFO: Employee attendance show method called: {"user_id":"1","date":"2025-03-19"} 
+[2025-03-19 15:12:05] local.INFO: Processed employee attendance record: {"id":1,"work_start":"2025-03-19 15:11:56","work_end":null,"break_duration":5,"work_duration":4,"is_breaking":true} 
+[2025-03-19 15:12:14] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:12:14] local.INFO: getCurrentAttendance結果 {"found":"yes","record":{"App\\Models\\AttendanceRecord":{"id":1,"user_id":1,"date":"2025-03-19","work_start_time":"2025-03-19T06:11:56.000000Z","work_end_time":null,"created_at":"2025-03-19T06:11:56.000000Z","updated_at":"2025-03-19T06:11:56.000000Z"}}} 
+[2025-03-19 15:12:17] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:12:17] local.INFO: getCurrentAttendance結果 {"found":"yes","record":{"App\\Models\\AttendanceRecord":{"id":1,"user_id":1,"date":"2025-03-19","work_start_time":"2025-03-19T06:11:56.000000Z","work_end_time":null,"created_at":"2025-03-19T06:11:56.000000Z","updated_at":"2025-03-19T06:11:56.000000Z"}}} 
+[2025-03-19 15:12:17] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:12:17] local.INFO: getCurrentAttendance結果 {"found":"yes","record":{"App\\Models\\AttendanceRecord":{"id":1,"user_id":1,"date":"2025-03-19","work_start_time":"2025-03-19T06:11:56.000000Z","work_end_time":null,"created_at":"2025-03-19T06:11:56.000000Z","updated_at":"2025-03-19T06:11:56.000000Z"}}} 
+[2025-03-19 15:12:21] local.INFO: show method called with date: {"date":"2025-03-19"} 
+[2025-03-19 15:12:21] local.INFO: Retrieved attendance records: {"count":1,"total":1,"items":[{"App\\Models\\AttendanceRecord":{"id":1,"user_id":1,"date":"2025-03-19","work_start_time":"2025-03-19T06:11:56.000000Z","work_end_time":null,"created_at":"2025-03-19T06:11:56.000000Z","updated_at":"2025-03-19T06:11:56.000000Z","user":{"id":1,"name":"はら　たま","email":"tama@test.com","email_verified_at":"2025-03-19T06:11:26.000000Z","created_at":"2025-03-19T06:11:16.000000Z","updated_at":"2025-03-19T06:11:26.000000Z"},"break_times":[{"id":1,"attendance_record_id":1,"break_start_time":"2025-03-19T06:12:00.000000Z","break_end_time":"2025-03-19T06:12:17.000000Z","created_at":"2025-03-19T06:12:00.000000Z","updated_at":"2025-03-19T06:12:17.000000Z"}]}}]} 
+[2025-03-19 15:12:21] local.INFO: Processed attendance record: {"id":1,"user":"はら　たま","work_start":"2025-03-19 15:11:56","work_end":null,"break_duration":17,"work_duration":8,"is_breaking":false} 
