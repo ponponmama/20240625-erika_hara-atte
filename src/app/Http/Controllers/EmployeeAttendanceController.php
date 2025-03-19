@@ -19,12 +19,33 @@ class EmployeeAttendanceController extends Controller
 
         $user = User::findOrFail($userId);
 
+        // デバッグ用のログを追加
+        Log::info('Debug values:', [
+            'user_id' => $userId,
+            'date' => $date,
+            'query' => AttendanceRecord::where('user_id', $userId)
+                ->whereDate('date', $date)
+                ->toSql(),
+            'bindings' => AttendanceRecord::where('user_id', $userId)
+                ->whereDate('date', $date)
+                ->getBindings(),
+            'all_records' => AttendanceRecord::all()->toArray(),
+            'user_records' => AttendanceRecord::where('user_id', $userId)->get()->toArray(),
+            'date_records' => AttendanceRecord::whereDate('date', $date)->get()->toArray()
+        ]);
+
         // AttendanceRecordから直接データを取得
         $attendances = AttendanceRecord::where('user_id', $userId)
             ->whereDate('date', $date)
             ->with(['breakTimes'])
             ->orderBy('work_start_time', 'desc')
             ->paginate(5);
+
+        // 取得したデータの確認
+        Log::info('Retrieved attendances:', [
+            'count' => $attendances->count(),
+            'data' => $attendances->toArray()
+        ]);
 
         $totalWorkDuration = 0;
         $totalBreakDuration = 0;

@@ -4,94 +4,97 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\AttendanceSession;
 use App\Models\AttendanceRecord;
 use App\Models\BreakTime;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
-
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        User::factory(100)->create()->each(function ($user) {
+        // 固定の日付（3/19）を設定（2025年に変更）
+        $baseDate = Carbon::create(2025, 3, 19, 0, 0, 0, 'Asia/Tokyo');
+
+        // ユーザーを作成
+        User::factory(10)->create()->each(function ($user) use ($baseDate) {
+            // 各ユーザーに対して過去3日分の勤怠記録を作成
             for ($i = 0; $i < 3; $i++) {
-                $date = Carbon::today()->subDays($i);
+                $date = $baseDate->copy()->subDays($i);
+
                 // 10%の確率で日を跨ぐ勤務時間を設定
                 if (rand(1, 100) <= 10) {
-                    $workStartHour = rand(22, 23); // 夜遅くに設定
-                    $workDurationHours = rand(9, 12); // 長時間勤務
+                    // 日を跨ぐ勤務の場合
+                    $startHour = rand(22, 23); // 夜遅くに設定
+                    $workDurationHours = rand(6, 8); // 6-8時間の勤務
+
+                    $workStartTime = Carbon::createFromTime($startHour, 0, 0, 'Asia/Tokyo')
+                        ->setDate($date->year, $date->month, $date->day);
+                    $workEndTime = (clone $workStartTime)->addHours($workDurationHours);
+
+                    if ($workEndTime->day != $workStartTime->day) {
+                        // 当日の勤務を23:59:59で終了
+                        $currentDayWorkEndTime = Carbon::createFromTime(0, 0, 0, 'Asia/Tokyo')
+                            ->setDate($workStartTime->year, $workStartTime->month, $workStartTime->day)
+                            ->addDay()
+                            ->subSecond(1);
+
+                        // 当日の勤務記録を作成
+                        $this->createAttendanceRecord($user, $date, $workStartTime, $currentDayWorkEndTime);
+
+                        // 翌日の勤務記録を作成（00:00:00から開始）
+                        $nextDayDate = $workEndTime->toDateString();
+                        $nextDayWorkStartTime = Carbon::createFromTime(0, 0, 0, 'Asia/Tokyo')
+                            ->setDate($nextDayDate, $workEndTime->month, $workEndTime->day);
+                        $nextDayWorkEndTime = clone $workEndTime;
+
+                        // 翌日の勤務記録を作成（日付は翌日）
+                        $this->createAttendanceRecord($user, $nextDayDate, $nextDayWorkStartTime, $nextDayWorkEndTime);
+                    } else {
+                        $this->createAttendanceRecord($user, $date, $workStartTime, $workEndTime);
+                    }
                 } else {
-                    $workStartHour = rand(9, 21);
+                    // 通常の勤務時間（6-8時間）
                     $workDurationHours = rand(6, 8);
-                }
-                $workStartTime = Carbon::createFromTime($workStartHour, 0, 0, 'Asia/Tokyo')->subDays($i);
-                $workEndTime = (clone $workStartTime)->addHours($workDurationHours);
+                    $startHour = rand(9, 17); // 開始時間を9-17時に制限
 
-                if ($workEndTime->day != $workStartTime->day) {
-                    $currentDayWorkEndTime = Carbon::createFromTime(0, 0, 0, 'Asia/Tokyo')
-                        ->setDate($workStartTime->year, $workStartTime->month, $workStartTime->day)
-                        ->addDay()
-                        ->subSecond(1);
-                    $nextDayWorkStartTime = (clone $currentDayWorkEndTime)->addSecond();
-                    $nextDayWorkEndTime = clone $workEndTime;
+                    $workStartTime = Carbon::createFromTime($startHour, 0, 0, 'Asia/Tokyo')
+                        ->setDate($date->year, $date->month, $date->day);
+                    $workEndTime = (clone $workStartTime)->addHours($workDurationHours);
 
-                    // 当日の勤務セッション
-                    $this->createAttendanceSession($user, $date, $workStartTime, $currentDayWorkEndTime);
+                    // 終了時間が午前0時以降の場合、日付を翌日に設定
+                    if ($workEndTime->hour < 6) { // 午前6時までは前日の勤務として扱う
+                        $displayDate = $workEndTime->copy()->subDay()->toDateString();
+                    } else {
+                        $displayDate = $date;
+                    }
 
-                    // 翌日の勤務セッション、日付を正しく設定
-                    $nextDayDate = $nextDayWorkStartTime->toDateString();
-                    $this->createAttendanceSession($user, $nextDayDate, $nextDayWorkStartTime, $nextDayWorkEndTime);
-                } else {
-                    $this->createAttendanceSession($user, $date, $workStartTime, $workEndTime);
+                    $this->createAttendanceRecord($user, $displayDate, $workStartTime, $workEndTime);
                 }
             }
         });
     }
 
-    private function createAttendanceSession($user, $date, $startTime, $endTime)
+    private function createAttendanceRecord($user, $date, $startTime, $endTime)
     {
-        $session = AttendanceSession::factory()->create([
+        $attendanceRecord = AttendanceRecord::create([
             'user_id' => $user->id,
             'date' => $date,
             'work_start_time' => $startTime,
             'work_end_time' => $endTime,
         ]);
 
-        $record = AttendanceRecord::factory()->create([
-            'user_id' => $user->id,
-            'date' => $date,
-            'work_start_time' => $startTime,
-            'work_end_time' => $endTime,
-        ]);
-
-        $totalBreakMinutes = 0;
-        $breaksCount = intdiv($endTime->diffInMinutes($startTime), 60);
-        for ($j = 0; $j < $breaksCount; $j++) {
-            $breakStart = (clone $startTime)->addMinutes($j * 60 + 50);
+        // 休憩時間を作成（1-3回）
+        $breakCount = rand(1, 3);
+        for ($j = 0; $j < $breakCount; $j++) {
+            $breakStart = Carbon::parse($attendanceRecord->work_start_time)
+                ->addMinutes(rand(30, 240));
             $breakEnd = (clone $breakStart)->addMinutes(10);
-            $totalBreakMinutes += 10;
 
-            BreakTime::factory()->create([
-                'attendance_record_id' => $record->id,
+            BreakTime::create([
+                'attendance_record_id' => $attendanceRecord->id,
                 'break_start_time' => $breakStart,
                 'break_end_time' => $breakEnd,
             ]);
         }
-
-        // 日をまたぐ場合の勤務時間計算
-        $workDurationMinutes = $endTime->diffInMinutes($startTime);
-        if ($endTime->lessThan($startTime)) {
-            Log::info("Work spans over midnight. Adjusting times.");
-            $workDurationMinutes += 1440; // 24時間分の分を加算
-        }
-        // 休憩時間を勤務時間から差し引く
-        $workDurationMinutes -= $totalBreakMinutes;
-
-        $session->update([
-            'break_duration' => $totalBreakMinutes,
-            'work_duration' => $workDurationMinutes,
-        ]);
     }
 }
