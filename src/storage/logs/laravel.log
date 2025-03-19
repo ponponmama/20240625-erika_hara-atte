@@ -351,3 +351,5 @@
 #44 /var/www/artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #45 {main}
 "} 
+[2025-03-19 15:08:20] local.INFO: Validating login request {"_token":"QGdOQSa9JsNX7k4LFsf2TViJ9yvXiFI3izbmOkUG","email":"tama@test.com","password":"Tamapass"} 
+[2025-03-19 15:08:50] local.INFO: Validating login request {"_token":"X3HP39MkidGyii2T7ySxyBs06du9CnmEzN7Zx8dv","email":"tama@test.com","password":"Tamapass"} 
