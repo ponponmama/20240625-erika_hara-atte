@@ -353,3 +353,5 @@
 "} 
 [2025-03-19 15:08:20] local.INFO: Validating login request {"_token":"QGdOQSa9JsNX7k4LFsf2TViJ9yvXiFI3izbmOkUG","email":"tama@test.com","password":"Tamapass"} 
 [2025-03-19 15:08:50] local.INFO: Validating login request {"_token":"X3HP39MkidGyii2T7ySxyBs06du9CnmEzN7Zx8dv","email":"tama@test.com","password":"Tamapass"} 
+[2025-03-19 15:11:26] local.INFO: getCurrentAttendance呼び出し {"user_id":1,"date":"2025-03-19"} 
+[2025-03-19 15:11:26] local.INFO: getCurrentAttendance結果 {"found":"no","record":null} 
