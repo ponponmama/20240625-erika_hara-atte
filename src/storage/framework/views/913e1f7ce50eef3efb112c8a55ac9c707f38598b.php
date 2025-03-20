@@ -2,24 +2,28 @@
 <link rel="stylesheet" href="<?php echo e(asset('css/index.css')); ?>">
 <?php $__env->stopSection(); ?>
 
-    <?php $__env->startSection('header_nav'); ?>
-    <a class="header__logo" href="/">
-        ホーム
-    </a>
-    <a class="date_list" href="/attendance">日付一覧</a>
-    <a href="<?php echo e(route('employees.index')); ?>">ユーザー一覧</a>
-    <form action="<?php echo e(route('logout')); ?>" method="POST">
-        <?php echo csrf_field(); ?>
-        <button class="logout_button" type="submit">
-            ログアウト
-        </button>
-    </form>
-    <?php $__env->stopSection(); ?>
+<?php $__env->startSection('header_nav'); ?>
+<a class="header__logo" href="/">
+    ホーム
+</a>
+<a class="date_list" href="/attendance">
+    日付一覧
+</a>
+<a href="<?php echo e(route('employees.index')); ?>">
+    ユーザー一覧
+</a>
+<form action="<?php echo e(route('logout')); ?>" method="POST">
+    <?php echo csrf_field(); ?>
+    <button class="logout_button" type="submit">
+        ログアウト
+    </button>
+</form>
+<?php $__env->stopSection(); ?>
 
-    <?php $__env->startSection('content'); ?>
+<?php $__env->startSection('content'); ?>
     <div class="index_edge">
         <p class="greeting">
-            <span class="attendance_message"><?php echo e(Auth::user()->name); ?>さん、お疲れ様です！</span>
+            <?php echo e(Auth::user()->name); ?>さん、お疲れ様です！
         </p>
         <?php if(session('action')): ?>
         <p class="alert alert-info">
@@ -82,6 +86,6 @@
             </div>
         </div>
     </div>
-    <?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/index.blade.php ENDPATH**/ ?>

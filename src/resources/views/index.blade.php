@@ -25,7 +25,7 @@
 @section('content')
     <div class="index_edge">
         <p class="greeting">
-            <span class="attendance_message">{{ Auth::user()->name }}さん、お疲れ様です！</span>
+            {{ Auth::user()->name }}さん、お疲れ様です！
         </p>
         @if (session('action'))
         <p class="alert alert-info">
