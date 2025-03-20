@@ -22,49 +22,48 @@
         margin-top: 20px;
     }
     .form-spacing {
-        margin-bottom: 20px; /* フォーム間のマージンを設定 */
+        margin-bottom: 30px;
+    }
+    .card-container {
+        max-width: 600px;
+        margin: 0 auto;
     }
 </style>
-<div class="container" style="margin-left: 10%; margin-right: 10%;">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header" style="font-weight: bold;">{{ __('メールアドレスの確認') }}</div>
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('新しい確認リンクがあなたのメールアドレスに送信されました。') }}
-                        </div>
-                    @endif
-
-                    <p style="font-weight: bold;">{{ __('ご登録ありがとうございます！') }}<br>
-                    {{ __('始める前に、メールで送信されたリンクをクリックしてメールアドレスを確認してください。') }}<br>
-                    {{ __('メールが届いていない場合は、再送いたします。') }}</p>
-
-                    @if (session('status') == 'verification-link-sent')
-                        <div class="alert alert-success" role="alert">
-                            {{ __('新しい確認リンクが登録時に提供されたメールアドレスに送信されました。') }}
-                        </div>
-                    @endif
-                    <div class="center-buttons">
-                        <form method="POST" action="{{ route('verification.send') }}" class="form-spacing">
-                            @csrf
-                            <button type="submit" class="btn-custom">
-                                {{ __('確認メールを再送信') }}
-                            </button>
-                        </form>
-
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="btn-custom">
-                                {{ __('ログアウト') }}
-                            </button>
-                        </form>
-                    </div>
-                </div>
+<main class="card-container">
+    <section class="card">
+        <header class="card-header" style="font-weight: bold;">
+            {{ __('メールアドレスの確認') }}
+        </header>
+        <div class="card-body">
+            @if (session('resent'))
+                <p class="alert alert-success">
+                    {{ __('新しい確認リンクがあなたのメールアドレスに送信されました。') }}
+                </p>
+            @endif
+            <p class="verification-message" style="font-weight: bold;">{{ __('ご登録ありがとうございます！') }}<br>
+            {{ __('メールで送信されたリンクをクリックしてメールアドレスを確認してください。') }}<br>
+            {{ __('メールの再送') }}</p>
+            @if (session('status') == 'verification-link-sent')
+                <p class="alert alert-success">
+                    {{ __('新しい確認リンクが登録のメールアドレスに送信されました。') }}
+                </p>
+            @endif
+            <div class="center-buttons">
+                <form method="POST" action="{{ route('verification.send') }}" class="form-spacing">
+                    @csrf
+                    <button type="submit" class="btn-custom">
+                        {{ __('確認メールを再送信') }}
+                    </button>
+                </form>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn-custom">
+                        {{ __('ログアウト') }}
+                    </button>
+                </form>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 @endsection

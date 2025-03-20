@@ -1,66 +1,62 @@
-    body {
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: bold;
-        margin: 0;
-        padding: 0;
-    }
+.index_edge {
+    background-color: #f4f7d8;
+    max-width: 90%;
+    padding: 10px 10px 40px 10px;
+    margin: 1% 5%;
+    font-size: 1rem;
+    color: #000;
+}
 
-    .index_edge {
-        background-color: #f4f7d8;
-        max-width: 90%;
-        padding: 10px 10px 40px 10px;
-        margin: 1% 5%;
-    }
+.index_edge .greeting {
+    max-width: 100%;
+    background-color: #f4f7d8;
+    padding: 10px;
+    margin: 2%;
+    font-size: 1.2rem;
+    text-align: center;
+}
 
-    .greeting {
-        max-width: 100%;
-        background-color: #f4f7d8;
-        ;
-        padding: 5px;
-        margin: 1%;
-        text-align: center;
-    }
+.alert {
+    margin: 10px;
+    padding: 10px;
+}
 
-    .attendance_message {
-        font-size: 1.2rem;
-        color: #000;
-    }
+.index_edge .attendance-button {
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 70px 10px;
+    transition: background-color 0.3s ease;
+}
 
-    button {
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
+.index_edge .attendance-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
 
-    .attendance-records {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-        padding: 5px;
-        margin: 10px 10px;
-    }
+.index_edge .attendance-records {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 5px;
+    margin: 10px 10px;
+}
 
-    .start_work,
-    .end_break {
-        width: 100%;
-        background-color: white;
-        color: #c2c4b2;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 70px 10px;
-    }
+.index_edge .start_work,
+.index_edge .end_break {
+    background-color: white;
+    color: #c2c4b2;
+}
 
-    .end_work,
-    .break_records {
-        width: 100%;
-        background-color: white;
-        color: black;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 70px 10px;
-    }
+.index_edge .end_work,
+.index_edge .break_records {
+    background-color: white;
+    color: black;
+}
 
-    button:hover {
-        background-color: #8cbff5;
-    }
+.index_edge .attendance-button:hover:not(:disabled) {
+    background-color: #8cbff5;
+}

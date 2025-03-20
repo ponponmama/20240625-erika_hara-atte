@@ -20,11 +20,11 @@
         </div>
     </header>
 
-    <main>
+    <main class="main_section">
         <?php echo $__env->yieldContent('content'); ?>
     </main>
     <footer class="footer">
-        ©Atte,inc
+        ©Atte,inc.
     </footer>
 </body>
 </html><?php /**PATH /var/www/resources/views/layouts/app.blade.php ENDPATH**/ ?>

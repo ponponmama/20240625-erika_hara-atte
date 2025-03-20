@@ -20,11 +20,11 @@
         </div>
     </header>
 
-    <main>
+    <main class="main_section">
         @yield('content')
     </main>
     <footer class="footer">
-        ©Atte,inc
+        ©Atte,inc.
     </footer>
 </body>
 </html>
