@@ -64,15 +64,15 @@ body {
 .main_section {
     width: 94%;
     flex: 1;
-    padding-bottom: 60px;
+    padding: 40px 0 60px;
     display: flex;
-    align-items: center;
     justify-content: center;
     background-color: #f4f7d8;
     margin: 0 3%;
 }
 
 .main_section > * {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
 }

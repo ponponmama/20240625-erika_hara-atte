@@ -1,5 +1,5 @@
 <?php $__env->startSection('css'); ?>
-<link rel="stylesheet" href="<?php echo e(asset('css/employee_directory.css')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('css/attendance.css')); ?>">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('header_nav'); ?>
@@ -15,31 +15,31 @@
         </button>
     </form>
 <?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('content'); ?>
-<div class="employee_table">
-    <div class="employee_table_list">
-        <span class=user_list>ユーザー 一覧</span>
-        <table class="list">
-            <thead>
-                <tr>
-                    <th class="employee_list_name">名前</th>
-                    <th>勤怠詳細</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <tr>
-                    <td class="employee_user_name"><?php echo e($employee->name); ?></td>
-                    <td class="employee_list"><a href="<?php echo e(route('employee.attendance.show', ['userId' => $employee->id, 'date' => now()->format('Y-m-d')])); ?>">勤怠表</a></td>
-                </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </tbody>
-        </table>
-    </div>
+<div class="table-container">
+    <p class="user_list">ユーザー 一覧</p>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th class="name-column">名前</th>
+                <th>勤怠詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <tr>
+                <td class="name-column"><?php echo e($employee->name); ?></td>
+                <td><a href="<?php echo e(route('employee.attendance.show', ['userId' => $employee->id, 'date' => now()->format('Y-m-d')])); ?>">勤怠表</a></td>
+            </tr>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </tbody>
+    </table>
     <div class="pagination custom-count-pagination">
         <?php echo e($employees->links()); ?>
 
     </div>
 </div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/EmployeeDirectory.blade.php ENDPATH**/ ?>

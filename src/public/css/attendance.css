@@ -1,71 +1,86 @@
-.date_table {
-    width: 90%;
-    background-color: #f4f7d8;
-    margin: 0 5%;
-    font-weight: bold;
+/*EmployeeDirectoryのtableのstyle設定*/
+.user_list {
+    display: block;
+    text-align: center;
+    font-size: 1.2rem;
 }
 
+/*共通のテーブルスタイル */
+.data-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 5% auto;
+    font-size: 1rem;
+    table-layout: fixed;
+}
 
-/* 日付ページネーションのスタイル */
-.custom-date-pagination {
+.data-table th {
+    border-bottom: 1px solid rgb(119, 118, 118);
+    padding: 18px 10px;
     text-align: center;
-    margin: 10px;
+    height: 30px;
+    width: 20%;
+}
+
+.data-table td {
+    border-bottom: 1px solid rgb(119, 118, 118);
+    padding: 18px 10px;
+    text-align: center;
+    height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.data-table .name-column {
+    text-align: left;
+    padding-left: 10%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* テーブルコンテナ共通スタイル */
+.table-container {
+    width: 100%;
+    background-color: #f4f7d8;
+    padding: 16px 0;
+}
+
+/* 日付別のページネーションのstyle*/
+.date_span {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 20px;
+}
+
+/* ページネーションの共通スタイル */
+.custom-date-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .custom-date-pagination a {
-    display: inline-block;
-    padding: 1px 8px;
-    margin: 14px 10px;
-    border: 1px solid blue;
-    background-color: white;
+    text-decoration: none;
     color: blue;
     font-weight: bold;
-    text-decoration: none;
-    font-size: 0.8rem;
-}
-
-.date_span {
-    color: black;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 5px 8px;
+    border: 1px solid rgb(119, 118, 118);
+    font-size: 0.7rem;
+    background-color: white;
+    margin: 0 1px;
 }
 
 .custom-date-pagination a:hover {
     background-color: #8cbff5;
-    color: white;
 }
 
-/* テーブルのスタイル */
-.date_table_list table {
-    width: 90%;
-    border-collapse: collapse;
-    margin: 0 auto;
-    font-size: 0.8rem;
-}
-
-.date_table_list th,
-.date_table_list td {
-    border-top: 1px solid rgb(119, 118, 118);
-    border-bottom: 1px solid rgb(119, 118, 118);
-    padding: 15px;
-    text-align: center;
-}
-
-
-.date_list_name {
-    text-align: left !important;
-    padding-left: 5% !important;
-}
-
-.date_table_list tr:last-child td {
-    border-bottom: none;
-}
-
-/* bootstrapのページネーションのスタイル */
 .custom-count-pagination {
     display: flex;
     justify-content: center;
-    text-align: center;
+    margin-top: 1%;
 }
 
 .custom-count-pagination .page-item {
