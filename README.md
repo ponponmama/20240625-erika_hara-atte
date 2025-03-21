@@ -2,20 +2,17 @@
 
 ### サービス概要
 
-Atteは、企業の勤怠管理システムです。ユーザーは勤務の開始と終了を記録し、休憩時間の管理も行うことができます。日付別やユーザーごとに勤怠データを取得し、表示する機能も備えています。
-
+Atte は、企業の勤怠管理システムです。ユーザーは勤務の開始と終了を記録し、休憩時間の管理も行うことができます。日付別やユーザーごとに勤怠データを取得し、表示する機能も備えています。
 
 ### 制作の背景と目的
 
 このシステムは、企業内での人事評価の精度を向上させるために開発されました。正確な勤務記録に基づいて、従業員の評価を行うことが可能になります。
 
-
 ### 制作の目標
 
-- 利用者数100人を達成すること。
+- 利用者数 100 人を達成すること。
 - ユーザーが直感的に操作できるシンプルなインターフェースを提供する。
 - 安全かつ正確に勤怠データを管理し、企業の人事評価に貢献する。
-
 
 ### 主な機能一覧
 
@@ -31,11 +28,12 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 
 ### データモデル
 
-- **UserテーブルとAttendanceRecordsテーブル:** Users テーブルの `id` と AttendanceRecords テーブルの `user_id` を外部キーで関連付けることにより、1対多の関係を表現します。これにより、一人のユーザーが複数の勤務記録を持つことができます。
+- **User テーブルと AttendanceRecords テーブル:** Users テーブルの `id` と AttendanceRecords テーブルの `user_id` を外部キーで関連付けることにより、1 対多の関係を表現します。これにより、一人のユーザーが複数の勤務記録を持つことができます。
 
-- **AttendanceRecords テーブルと BreakTime テーブル**: AttendanceRecords テーブルの `id` と BreakTime テーブルの `attendance_record_id` を外部キーで関連付けることで、1対多の関係を形成します。これにより、一つの勤務記録に対して複数の休憩時間が記録されることが可能になります。
+- **AttendanceRecords テーブルと BreakTime テーブル**: AttendanceRecords テーブルの `id` と BreakTime テーブルの `attendance_record_id` を外部キーで関連付けることで、1 対多の関係を形成します。これにより、一つの勤務記録に対して複数の休憩時間が記録されることが可能になります。
 
 ### セキュリティ
+
 - パスワードは８文字以上で少なくとも一つの大文字が必要です。
 
 ### 使用技術（実行環境）
@@ -46,7 +44,7 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 - **バージョン管理**: GitHub
 - **コンテナ化技術**: Docker
 
-### テーブル設計・ER図
+### テーブル設計・ER 図
 
 ![Atte Diagram](atte.drawio.png)
 
@@ -59,7 +57,6 @@ Atteは、企業の勤怠管理システムです。ユーザーは勤務の開�
 - **Laravel Framework**: 8.83.27
 
 - ＊ご使用の PC に合わせて各種必要なファイル(.env や docker-compose.yml 等)は作成、編集してください。
-
 
 ####クローン作製手順
 
@@ -78,6 +75,7 @@ cd 20240625-erika_hara-atte
 ```bash
 sudo apt-get update
 ```
+
 Docker コンテナのビルドと起動
 
 ```bash
@@ -86,7 +84,7 @@ docker-compose up -d --build
 
 3. Composer を使用した依存関係のインストール
 
-- githubからクローンを作成するといくつかのフォルダが足りません。srcにsetup.shを作成してあります。プロジェクトはフレームワーク内にインストールするので、先にフォルダ作成お願いします。
+- github からクローンを作成するといくつかのフォルダが足りません。src に setup.sh を作成してあります。プロジェクトはフレームワーク内にインストールするので、先にフォルダ作成お願いします。
 
 - 3-1. コンテナに入ります。
 
@@ -103,6 +101,7 @@ chmod +x setup.sh
 ```bash
 ./setup.sh
 ```
+
 - 以下のフォルダが作成されます
 
 ```
@@ -120,7 +119,8 @@ chmod +x setup.sh
 
 <br>
 
-####  "ディレクトリが正常に作成されました。" ← このメッセージが出ます。<br>
+#### "ディレクトリが正常に作成されました。" ← このメッセージが出ます。<br>
+
 <br>
 
 - 3-3 Docker 環境で PHP コンテナに入り、依存関係をインストールします。<br>
@@ -132,6 +132,7 @@ docker-compose exec php bash
 ```bash
 composer install
 ```
+
 <br>
 
 4. 環境設定ファイルの設定
@@ -156,7 +157,7 @@ php artisan config:clear
 
 4. アプリケーションキーの生成
 
- ```bash
+```bash
 php artisan key:generate
 ```
 
@@ -165,11 +166,13 @@ php artisan key:generate
 ```bash
 php artisan migrate
 ```
+
 6. データベースシーダーの実行
 
 ```bash
 php artisan db:seed
 ```
+
 ＊マイグレーションとシーダーを同時に実行する場合
 
 ```bash
@@ -180,39 +183,39 @@ php artisan migrate --seed
 
 プロジェクトでは開発環境でのメール送信のテストに Mailtrap を使用しています。
 
-![Mailtrapのホームページ](mailtrap_home.png)
+![Mailtrapのホームページ](mailtrap__home.png)
 
-**1.アカウント作成***
+**1.アカウント作成\***
 `https://mailtrap.io/` のサイトからサインアップタブをクリックし、アカウント作成します。
 
-![サインアップ画面](image-1.png)
-![サインアップ画面](image.png)
+![サインアップ画面](image_1.png)
+![サインアップ画面](image_0.png)
 
-**2. Start testingのクリック**
-赤枠の部分のStart testingをクリックします。もしくは、左サイドバーで「Email Testing」＞「Inboxes」をクリックします。
+**2. Start testing のクリック**
+赤枠の部分の Start testing をクリックします。もしくは、左サイドバーで「Email Testing」＞「Inboxes」をクリックします。
 
-![Start testingボタン](image-2.png)
+![Start testingボタン](image_2.png)
 
-**3. Inbox画面への移動**
-Inbox画面に移動したら、Integrationsのセレクトボックスをクリックしてください。
+**3. Inbox 画面への移動**
+Inbox 画面に移動したら、Integrations のセレクトボックスをクリックしてください。
 
-![Inbox画面](image-3.png)
+![Inbox画面](image_3.png)
 
 **4. フレームワークの選択**
-使用しているフレームワーク等を選びます。Laravel8を使っていたのでLaravel 8.xを選びました。
+使用しているフレームワーク等を選びます。Laravel8 を使っていたので Laravel 8.x を選びました。
 
-![フレームワーク選択画面](image-4.png)
+![フレームワーク選択画面](image_4.png)
 
-**5. Laravelの設定**
-laravel 8.xを選択したら、Laravel8の設定をクリックします。
-![Laravel設定画面](image-5.png)
+**5. Laravel の設定**
+laravel 8.x を選択したら、Laravel8 の設定をクリックします。
+![Laravel設定画面](image_5.png)
 
-**6. .env設定のコピー**
-Laravelを選択した場合は以下のように.envに貼り付ける用のコードが出ますので、コピーします。
+**6. .env 設定のコピー**
+Laravel を選択した場合は以下のように.env に貼り付ける用のコードが出ますので、コピーします。
 
-![.env設定コード](image-6.png)
+![.env設定コード](image_6.png)
 
-**7. .envファイルへの設定追加**
+**7. .env ファイルへの設定追加**
 
 下の設定を `.env` ファイルに追加してください。これにより、開発中のメール送信を安全にテストすることができます。
 
@@ -237,9 +240,7 @@ MAIL_LOG_CHANNEL=stack
 
 この設定を適用後、アプリケーションからのメールは Mailtrap の仮想 SMTP サーバーを通じて送信され、実際には配信されずに Mailtrap のダッシュボードで確認することができます。
 
-
-
 ### URL
+
 - **開発環境:** [http://localhost/](http://localhost/)
 - **phpMyAdmin:** [http://localhost:8080/](http://localhost:8080/)
-
