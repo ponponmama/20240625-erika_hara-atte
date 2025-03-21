@@ -170,6 +170,11 @@ php artisan migrate
 ```bash
 php artisan db:seed
 ```
+＊マイグレーションとシーダーを同時に実行する場合
+
+```bash
+php artisan migrate --seed
+```
 
 ### メール設定
 
