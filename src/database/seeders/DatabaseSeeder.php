@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // 固定の日付（3/19）を設定（2025年に変更）
-        $baseDate = Carbon::create(2025, 3, 20, 0, 0, 0, 'Asia/Tokyo');
+        // 現在の日付を基準に設定
+        $baseDate = Carbon::now()->setTimezone('Asia/Tokyo');
 
         // ユーザーを作成
         User::factory(100)->create()->each(function ($user) use ($baseDate) {
