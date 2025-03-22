@@ -13,10 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // 固定の日付（3/19）を設定（2025年に変更）
-        $baseDate = Carbon::create(2025, 3, 19, 0, 0, 0, 'Asia/Tokyo');
+        $baseDate = Carbon::create(2025, 3, 20, 0, 0, 0, 'Asia/Tokyo');
 
         // ユーザーを作成
-        User::factory(10)->create()->each(function ($user) use ($baseDate) {
+        User::factory(100)->create()->each(function ($user) use ($baseDate) {
             // 各ユーザーに対して過去3日分の勤怠記録を作成
             for ($i = 0; $i < 3; $i++) {
                 $date = $baseDate->copy()->subDays($i);
