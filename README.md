@@ -1,3 +1,6 @@
+<p align="center"><img src="https://img.shields.io/badge/-Laravel-black.svg?logo=laravel&style=plastic"> <img src="https://img.shields.io/badge/-Html5-pink.svg?logo=html5&style=plastic"> <img src="https://img.shields.io/badge/-CSS3-blue.svg?logo=css3&style=plastic"> <img src="https://img.shields.io/badge/-Php-orange.svg?logo=php&style=plastic"> <img src="https://img.shields.io/badge/-Mysql-green.svg?logo=mysql&style=plastic"> <img src="https://img.shields.io/badge/-Windows-0078D6.svg?logo=windows&style=plastic"> <img src="https://img.shields.io/badge/-Docker-1488C6.svg?logo=docker&style=plastic"> <img src="https://img.shields.io/badge/-Github-181717.svg?logo=github&style=plastic"></p>
+
+
 ## Atte（アット）勤怠管理システムアプリ
 
 ### サービス概要
@@ -51,7 +54,7 @@ Atte は、企業の勤怠管理システムです。ユーザーは勤務の開
 ### 環境構築
 
 - **PHP**: 7.4.9
-- **MySQL**: 10.11.6-MariaDB
+- **MySQL**: 10.11.6
 - **Composer**: 2.8.5
 - **Docker**: 27.4.0
 - **Laravel Framework**: 8.83.27
