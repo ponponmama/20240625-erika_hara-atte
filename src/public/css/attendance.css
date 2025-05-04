@@ -62,7 +62,7 @@
     margin-bottom: 20px;
 }
 
-.custom-date-pagination a {
+.custom-date-pagination {
     text-decoration: none;
     color: blue;
     font-weight: bold;
@@ -73,7 +73,7 @@
     margin: 0 1px;
 }
 
-.custom-date-pagination a:hover {
+.custom-date-pagination:hover {
     background-color: #8cbff5;
 }
 

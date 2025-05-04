@@ -5,14 +5,14 @@
 @endsection
 
 @section('header_nav')
-    <a class="header__logo" href="/">
+    <a class="link header__logo" href="/">
         ホーム
     </a>
-    <a href="/attendance">日付一覧</a>
-    <a href="{{ route('employees.index') }}">ユーザー一覧</a>
+    <a href="/attendance" class="link date_list">日付一覧</a>
+    <a href="{{ route('employees.index') }}" class="link employee_list">ユーザー一覧</a>
     <form action="{{ route('logout') }}" method="POST">
         @csrf
-        <button class="logout_button" type="submit">
+        <button class="button logout_button" type="submit">
             ログアウト
         </button>
     </form>

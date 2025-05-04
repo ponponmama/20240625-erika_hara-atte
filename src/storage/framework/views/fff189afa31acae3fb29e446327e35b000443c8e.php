@@ -10,70 +10,70 @@
             <?php echo csrf_field(); ?>
             <div class="form_input">
                 <input type="text" name="name" id="name" placeholder="名前" value="<?php echo e(old('name')); ?>">
-                <p class="form__error">
-                    <?php $__errorArgs = ['name'];
+            </div>
+            <p class="form__error">
+                <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <?php echo e($message); ?>
+                    <?php echo e($message); ?>
 
-                    <?php unset($message);
+                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                </p>
-            </div>
+            </p>
             <div class="form_input">
                 <input type="email" name="email" id="email" placeholder="メールアドレス" value="<?php echo e(old('email')); ?>">
-                <p class="form__error">
-                    <?php $__errorArgs = ['email'];
+            </div>
+            <p class="form__error">
+                <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <?php echo e($message); ?>
+                    <?php echo e($message); ?>
 
-                    <?php unset($message);
+                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                </p>
-            </div>
+            </p>
             <div class="form_input">
                 <input type="password" name="password" id="password" placeholder="パスワード">
-                <p class="form__error">
-                    <?php $__errorArgs = ['password'];
+            </div>
+            <p class="form__error">
+                <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <?php echo e($message); ?>
+                    <?php echo e($message); ?>
 
-                    <?php unset($message);
+                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                </p>
-            </div>
+            </p>
             <div class="form_input">
                 <input type="password" name="password_confirmation" id="password_confirmation" placeholder="確認用パスワード">
-                <p class="form__error">
-                    <?php $__errorArgs = ['password_confirmation'];
+            </div>
+            <p class="form__error">
+                <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <?php echo e($message); ?>
+                    <?php echo e($message); ?>
 
-                    <?php unset($message);
+                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                </p>
-            </div>
+            </p>
             <div class="form_input">
-                <button type="submit" class="custom-submit-button">
+                <button type="submit" class="button custom-submit-button">
                     会員登録
                 </button>
             </div>
@@ -81,7 +81,7 @@ unset($__errorArgs, $__bag); ?>
         <p class="link-text">
             アカウントをお持ちの方はこちらから
         </p>
-        <a class="jump_link" href="<?php echo e(route('login')); ?>" class="custom-login-link">
+        <a class="link jump_link" href="<?php echo e(route('login')); ?>">
             ログイン
         </a>
     </div>

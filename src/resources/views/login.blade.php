@@ -14,27 +14,27 @@
             @csrf
             <div class="form_input">
                 <input type="email" name="email" id="email" placeholder="メールアドレス" value="{{ old('email') }}">
-                <p class="form__error">
-                    @error('email')
-                    {{ $message }}
-                    @enderror
-                </p>
             </div>
+            <p class="form__error">
+                @error('email')
+                    {{ $message }}
+                @enderror
+            </p>
             <div class="form_input">
                 <input type="password" name="password" id="password" placeholder="パスワード">
-                <p class="form__error">
-                    @error('password')
-                    {{ $message }}
-                    @enderror
-                </p>
             </div>
+            <p class="form__error">
+                @error('password')
+                    {{ $message }}
+                @enderror
+            </p>
             <div class="form_button">
-                <button type="submit" class="custom-submit-button">
+                <button type="submit" class="button custom-submit-button">
                     ログイン
                 </button>
             </div>
         </form>
         <p class="link-text">アカウントをお持ちでない方はこちらから</p>
-        <a href="{{ route('register') }}" class="jump_link">会員登録</a>
+        <a href="{{ route('register') }}" class="link jump_link">会員登録</a>
     </div>
 @endsection

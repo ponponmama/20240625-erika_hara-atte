@@ -3,18 +3,18 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('header_nav'); ?>
-<a class="header__logo" href="/">
+<a class="link header__logo" href="/">
     ホーム
 </a>
-<a class="date_list" href="/attendance">
+<a class="link date_list" href="/attendance">
     日付一覧
 </a>
-<a href="<?php echo e(route('employees.index')); ?>">
+<a class="link employee_list" href="<?php echo e(route('employees.index')); ?>">
     ユーザー一覧
 </a>
 <form action="<?php echo e(route('logout')); ?>" method="POST">
     <?php echo csrf_field(); ?>
-    <button class="logout_button" type="submit">
+    <button class="button logout_button" type="submit">
         ログアウト
     </button>
 </form>
@@ -23,7 +23,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="index_edge">
         <p class="greeting">
-            <?php echo e(Auth::user()->name); ?>さん、お疲れ様です！
+            <?php echo e(Auth::user()->name); ?>さん&nbsp;お疲れ様です！
         </p>
         <?php if(session('action')): ?>
         <p class="alert alert-info">
@@ -48,9 +48,9 @@
                 <form action="<?php echo e(route('work.start')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <?php if($status == 0): ?>
-                        <button class="start_work attendance-button" type="submit" name="start_work">勤務開始</button>
+                        <button class="button start_work attendance-button" type="submit" name="start_work">勤務開始</button>
                     <?php else: ?>
-                        <button class="start_work attendance-button" disabled>勤務開始</button>
+                        <button class="button start_work attendance-button" disabled>勤務開始</button>
                     <?php endif; ?>
                 </form>
             </div>
@@ -58,9 +58,9 @@
                 <form action="<?php echo e(route('work.end')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <?php if($status == 1): ?>
-                        <button class="end_work attendance-button" type="submit" name="end_work">勤務終了</button>
+                        <button class="button end_work attendance-button" type="submit" name="end_work">勤務終了</button>
                     <?php else: ?>
-                        <button class="end_work attendance-button" type="submit" name="end_work" disabled>勤務終了</button>
+                        <button class="button end_work attendance-button" type="submit" name="end_work" disabled>勤務終了</button>
                     <?php endif; ?>
                 </form>
             </div>
@@ -68,9 +68,9 @@
                 <form action="<?php echo e(route('break.start')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <?php if($status == 1): ?>
-                        <button class="break_records attendance-button" type="submit" name="start_break">休憩開始</button>
+                        <button class="button break_records attendance-button" type="submit" name="start_break">休憩開始</button>
                     <?php else: ?>
-                        <button class="break_records attendance-button" type="submit" name="start_break" disabled>休憩開始</button>
+                        <button class="button break_records attendance-button" type="submit" name="start_break" disabled>休憩開始</button>
                     <?php endif; ?>
                 </form>
             </div>
@@ -78,9 +78,9 @@
                 <form action="<?php echo e(route('break.end')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <?php if($status == 2): ?>
-                        <button class="end_break attendance-button" type="submit" name="end_break">休憩終了</button>
+                        <button class="button end_break attendance-button" type="submit" name="end_break">休憩終了</button>
                     <?php else: ?>
-                        <button class="end_break attendance-button" type="submit" name="end_break" disabled>休憩終了</button>
+                        <button class="button end_break attendance-button" type="submit" name="end_break" disabled>休憩終了</button>
                     <?php endif; ?>
                 </form>
             </div>

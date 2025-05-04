@@ -3,14 +3,14 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('header_nav'); ?>
-    <a class="header__logo" href="/">
+    <a class="link header__logo" href="/">
         HOME
     </a>
-    <a href="/attendance">日付一覧</a>
-    <a href="<?php echo e(route('employees.index')); ?>">ユーザー一覧</a>
+    <a href="/attendance" class="link">日付一覧</a>
+    <a href="<?php echo e(route('employees.index')); ?>" class="link">ユーザー一覧</a>
     <form action="<?php echo e(route('logout')); ?>" method="POST">
         <?php echo csrf_field(); ?>
-        <button class="logout_button" type="submit">
+        <button class="button logout_button" type="submit">
             ログアウト
         </button>
     </form>
