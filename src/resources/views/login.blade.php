@@ -10,10 +10,11 @@
         <h2 class="custom_title">
             ログイン
         </h2>
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" autocomplete="on">
             @csrf
             <div class="form_input">
-                <input type="email" name="email" id="email" placeholder="メールアドレス" value="{{ old('email') }}">
+                <input type="email" name="email" id="email" placeholder="メールアドレス" value="{{ old('email') }}"
+                    autocomplete="email">
             </div>
             <p class="form__error">
                 @error('email')
@@ -21,7 +22,7 @@
                 @enderror
             </p>
             <div class="form_input">
-                <input type="password" name="password" id="password" placeholder="パスワード">
+                <input type="password" name="password" id="password" placeholder="パスワード" autocomplete="current-password">
             </div>
             <p class="form__error">
                 @error('password')

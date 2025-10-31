@@ -24,7 +24,7 @@
         @yield('content')
     </main>
     <footer class="footer">
-        ©Atte,inc.
+        Atte,inc.
     </footer>
 </body>
 </html>

@@ -11,7 +11,8 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="form_input">
-                <input type="text" name="name" id="name" placeholder="名前" value="{{ old('name') }}">
+                <input type="text" name="name" id="name" placeholder="名前" value="{{ old('name') }}"
+                    autocomplete="name">
             </div>
             <p class="form__error">
                 @error('name')
@@ -19,7 +20,8 @@
                 @enderror
             </p>
             <div class="form_input">
-                <input type="email" name="email" id="email" placeholder="メールアドレス" value="{{ old('email') }}">
+                <input type="email" name="email" id="email" placeholder="メールアドレス" value="{{ old('email') }}"
+                    autocomplete="email">
             </div>
             <p class="form__error">
                 @error('email')
@@ -27,7 +29,7 @@
                 @enderror
             </p>
             <div class="form_input">
-                <input type="password" name="password" id="password" placeholder="パスワード">
+                <input type="password" name="password" id="password" placeholder="パスワード" autocomplete="new-password">
             </div>
             <p class="form__error">
                 @error('password')
@@ -35,7 +37,8 @@
                 @enderror
             </p>
             <div class="form_input">
-                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="確認用パスワード">
+                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="確認用パスワード"
+                    autocomplete="new-password">
             </div>
             <p class="form__error">
                 @error('password_confirmation')
