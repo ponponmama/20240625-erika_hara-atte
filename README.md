@@ -2,7 +2,6 @@
       <img src="https://img.shields.io/badge/-Laravel-black.svg?logo=laravel&style=plastic"> <img src="https://img.shields.io/badge/-Html5-pink.svg?logo=html5&style=plastic"> <img src="https://img.shields.io/badge/-CSS3-blue.svg?logo=css3&style=plastic"> <img src="https://img.shields.io/badge/-Php-orange.svg?logo=php&style=plastic"> <img src="https://img.shields.io/badge/-Mysql-green.svg?logo=mysql&style=plastic"> <img src="https://img.shields.io/badge/-Windows-0078D6.svg?logo=windows&style=plastic"> <img src="https://img.shields.io/badge/-Docker-1488C6.svg?logo=docker&style=plastic"> <img src="https://img.shields.io/badge/-Nginx-red.svg?logo=nginx&style=plastic"> <img src="https://img.shields.io/badge/-Github-181717.svg?logo=github&style=plastic">
 </p>
 
-
 <h3 align="center">Atte（アット）勤怠管理システムアプリ</h3>
 
 <p align="center">
@@ -17,7 +16,6 @@
 <p align="center">
     <img src="user-list.png" alt="勤怠表画面">
 </p>
-
 
 ### サービス概要
 
@@ -200,66 +198,55 @@ php artisan migrate --seed
 
 ### メール設定
 
-プロジェクトでは開発環境でのメール送信のテストに Mailtrap を使用しています。
+プロジェクトでは開発環境でのメール送信のテストに MailHog を使用しています。
 
-![Mailtrapのホームページ](mailtrap__home.png)
+```
+🎯 MailHogの役割
+メール送信のテスト: アプリケーションから送信されたメールを実際には送信せずにキャッチ
+Web UI: ブラウザでメール内容を確認できる（通常は http://localhost:8025）
+開発環境専用: 本番環境では使用しない
+```
 
-**1.アカウント作成\***
-`https://mailtrap.io/` のサイトからサインアップタブをクリックし、アカウント作成します。
+※　このファイルは開発環境でメール機能をテストするために必要なツールです。本番環境にはデプロイしないでください！
 
-![サインアップ画面](image_1.png)
-![サインアップ画面](image_0.png)
+- Laravel のメール設定で MailHog を SMTP サーバーとして設定
+- 会員登録時の認証メールが MailHog でキャッチされる
+- http://localhost:8025 でメール内容を確認できる
+- テストでは Mail::fake()を使用してメール送信をモック
 
-**2. Start testing のクリック**
-赤枠の部分の Start testing をクリックします。もしくは、左サイドバーで「Email Testing」＞「Inboxes」をクリックします。
+**1. docker-compose.yml の設定確認**
 
-![Start testingボタン](image_2.png)
+`docker-compose.yml`に既に MailHog の設定が含まれています：
 
-**3. Inbox 画面への移動**
-Inbox 画面に移動したら、Integrations のセレクトボックスをクリックしてください。
+```yml
+mailhog:
+  image: mailhog/mailhog:latest
+  ports:
+    - "1025:1025"
+    - "8025:8025"
+```
 
-![Inbox画面](image_3.png)
-
-**4. フレームワークの選択**
-使用しているフレームワーク等を選びます。Laravel8 を使っていたので Laravel 8.x を選びました。
-
-![フレームワーク選択画面](image_4.png)
-
-**5. Laravel の設定**
-laravel 8.x を選択したら、Laravel8 の設定をクリックします。
-![Laravel設定画面](image_5.png)
-
-**6. .env 設定のコピー**
-Laravel を選択した場合は以下のように.env に貼り付ける用のコードが出ますので、コピーします。
-
-![.env設定コード](image_6.png)
-
-**7. .env ファイルへの設定追加**
+**2. .env ファイルへの設定追加**
 
 下の設定を `.env` ファイルに追加してください。これにより、開発中のメール送信を安全にテストすることができます。
 
-- `MAIL_MAILER`: メールドライバー（例: smtp, sendmail）
-- `MAIL_HOST`: メールサーバーのホスト名
-- `MAIL_PORT`: メールサーバーのポート番号
-- `MAIL_USERNAME`: メールサーバーのユーザー名
-- `MAIL_PASSWORD`: メールサーバーのパスワード
-- `MAIL_ENCRYPTION`: メール送信の暗号化方式（例: tls, ssl）
-- `MAIL_FROM_NAME`: メール送信時の差出人名（環境変数 `APP_NAME` を使用する場合もあり）
-
-```plaintext
+```env
 MAIL_MAILER=smtp
-MAIL_HOST=sandbox.smtp.mailtrap.io
-MAIL_PORT=2525
-MAIL_USERNAME=your_mailtrap_username # Mailtrapのユーザー名をここに入力
-MAIL_PASSWORD=your_mailtrap_password # Mailtrapのパスワードをここに入力
-MAIL_ENCRYPTION=tls
-MAIL_FROM_NAME="${APP_NAME}" # アプリケーション名を使用する場合
-MAIL_LOG_CHANNEL=stack
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=
+MAIL_FROM_ADDRESS=noreply@example.com
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-この設定を適用後、アプリケーションからのメールは Mailtrap の仮想 SMTP サーバーを通じて送信され、実際には配信されずに Mailtrap のダッシュボードで確認することができます。
+**注意**: `MAIL_FROM_ADDRESS`の設定がないとメール送信が正常に動作しない場合があります。
+
+UI は [http://localhost:8025](http://localhost:8025) で確認できます
 
 ### URL
 
 - **開発環境:** [http://localhost/](http://localhost/)
 - **phpMyAdmin:** [http://localhost:8080/](http://localhost:8080/)
+- **MailHog UI:** [http://localhost:8025](http://localhost:8025)
