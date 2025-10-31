@@ -5,10 +5,10 @@
 <h3 align="center">Atte（アット）勤怠管理システムアプリ</h3>
 
 <p align="center">
-    <img src="register.png" alt="ユーザー登録画面">
+    <img src="atte_register.png" alt="ユーザー登録画面">
 </p>
 <p align="center">
-    <img src="login.png" alt="ユーザーログイン画面">
+    <img src="atte_login.png" alt="ユーザーログイン画面">
 </p>
 <p align="center">
     <img src="time-stamp.png" alt="打刻ページ画面">
