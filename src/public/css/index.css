@@ -1,28 +1,30 @@
 .index_edge {
-    width: 100%;
-    background-color: #f4f7d8;
-    max-width: 90%;
-    padding: 10px 10px 40px 10px;
-    margin: 1% 5%;
-    font-size: 1.2rem;
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    font-size: 24px;
     color: #000;
     text-align: center;
 }
 
-.greeting,.alert {
-    padding: 10px;
-    margin: 10px;
-    font-weight: bold;
+.alert {
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.greeting {
+    margin: 20px 0 10px 0;
 }
 
 .attendance-button {
-    font-size: 1.2rem;
+    font-size: 24px;
     font-weight: bold;
     width: 100%;
     border: none;
     border-radius: 5px;
-    padding: 70px 10px;
-    transition: background-color 0.3s ease;
+    padding: 80px 60px;
 }
 
 .index_edge .attendance-button:disabled {
@@ -33,7 +35,7 @@
 .index_edge .attendance-records {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 40px;
     padding: 5px;
     margin: 10px 10px;
 }

@@ -23,7 +23,7 @@ class AttendanceController extends Controller
         $attendance = $this->getCurrentAttendance($user->id, $today);
 
         $status = $this->getStatus($attendance);
-        return view('index', compact('status'));
+        return view('index', compact('status', 'user'));
     }
 
     private function getStatus($attendance)

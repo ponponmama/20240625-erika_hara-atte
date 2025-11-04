@@ -37,8 +37,7 @@
                 @enderror
             </p>
             <div class="form_input">
-                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="確認用パスワード"
-                    autocomplete="new-password">
+                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="確認用パスワード" autocomplete="new-password">
             </div>
             <p class="form__error">
                 @error('password_confirmation')
