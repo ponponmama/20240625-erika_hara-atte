@@ -10,7 +10,7 @@
         <h2 class="custom_title">
             ログイン
         </h2>
-        <form method="POST" action="{{ route('login') }}" autocomplete="on">
+        <form method="POST" action="{{ route('login') }}" autocomplete="on" class="custom-form">
             @csrf
             <div class="form_input">
                 <input type="email" name="email" id="email" placeholder="メールアドレス" value="{{ old('email') }}"

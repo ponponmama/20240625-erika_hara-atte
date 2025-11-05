@@ -1,5 +1,10 @@
 .custom-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width:35%;
+    height: 80%;
+    margin: 5% auto;
 }
 
 .form__error {
@@ -16,22 +21,27 @@
     margin: 0 auto 7%;
 }
 
+.custom-form {
+    width: 100%;
+    margin: 0 auto;
+}
+
 .form_input input {
     width: 100%;
     background-color: #f2f0f0ae;
-    border: 2px solid rgba(62, 62, 62, 0.800);
+    border: 2px solid rgba(84, 83, 83, 0.8);
     border-radius: 4px;
     font-size: 16px;
     padding: 12px;
     line-height: 22px;
     font-weight: bold;
-    color: rgba(62, 62, 62, 0.800);
+    color: rgba(84, 83, 83, 0.8);
 }
 
 .custom-submit-button {
     width: 100%;
-    background-color: rgba(2, 84, 246, 0.738);
-    color: #f2f0f0ae;
+    background-color: rgba(3, 24, 251, 0.772);
+    color: #f6f2f2d9;
     padding: 12px;
     border-radius: 4px;
     font-size: 16px;
@@ -50,7 +60,7 @@
 }
 
 .link-text {
-    color: rgba(62, 62, 62, 0.800);
+    color: rgba(84, 83, 83, 0.8);
     font-size: 16px;
     text-align: center;
     margin: 7% auto 0;
@@ -58,7 +68,7 @@
 
 .jump_link {
     display: block;
-    color: rgba(2, 84, 246, 0.738);
+    color: rgba(3, 24, 251, 0.772);
     text-decoration: none;
     text-align: center;
     font-size: 16px;

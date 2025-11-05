@@ -8,7 +8,7 @@
 @section('content')
     <div class="custom-form-container">
         <h2 class="custom_title">会員登録</h2>
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" class="custom-form">
             @csrf
             <div class="form_input">
                 <input type="text" name="name" id="name" placeholder="名前" value="{{ old('name') }}"
