@@ -14,7 +14,13 @@
     <img src="atte_stamp.png" alt="打刻ページ画面">
 </p>
 <p align="center">
-    <img src="atte_user-list.png" alt="勤怠表画面">
+    <img src="atte_date-list.png" alt="勤怠表画面">
+</p>
+<p align="center">
+    <img src="atte_user-list.png" alt="ユーザー一覧">
+</p>
+<p align="center">
+    <img src="attendance-record.png" alt="ユーザー勤怠記録">
 </p>
 
 ### サービス概要
