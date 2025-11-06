@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-    <div class="table-container">
+    <div class="table-container user-list-container">
         <p class="user_list">ユーザー 一覧</p>
         <table class="data-table">
             <thead>
@@ -30,9 +30,9 @@
             </thead>
             <tbody>
                 @foreach ($employees as $employee)
-                    <tr>
+                    <tr class="data-table-row">
                         <td class="data-table-row-item name-column">{{ str_replace([' ', '　'], '', $employee->name) }}</td>
-                        <td><a href="{{ route('employee.attendance.show', ['userId' => $employee->id, 'date' => now()->format('Y-m-d')]) }}">勤怠表</a>
+                        <td class="data-table-row-item link"><a class="text-link" href="{{ route('employee.attendance.show', ['userId' => $employee->id, 'date' => now()->format('Y-m-d')]) }}">勤怠表</a>
                         </td>
                     </tr>
                 @endforeach

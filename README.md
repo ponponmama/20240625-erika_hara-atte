@@ -11,10 +11,10 @@
     <img src="atte_login.png" alt="ユーザーログイン画面">
 </p>
 <p align="center">
-    <img src="time-stamp.png" alt="打刻ページ画面">
+    <img src="atte_stamp.png" alt="打刻ページ画面">
 </p>
 <p align="center">
-    <img src="user-list.png" alt="勤怠表画面">
+    <img src="atte_user-list.png" alt="勤怠表画面">
 </p>
 
 ### サービス概要
