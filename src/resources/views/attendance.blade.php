@@ -24,7 +24,8 @@
             <a href="{{ route('attendance.show', ['date' => \Carbon\Carbon::parse($date)->subDay()->format('Y-m-d')]) }}"
                 class="custom-date-pagination-link">＜</a>
             <span class="date_span">{{ $date }}</span>
-            <a href="{{ route('attendance.show', ['date' => \Carbon\Carbon::parse($date)->addDay()->format('Y-m-d')]) }}" class="custom-date-pagination-link">＞</a>
+            <a href="{{ route('attendance.show', ['date' => \Carbon\Carbon::parse($date)->addDay()->format('Y-m-d')]) }}"
+                class="custom-date-pagination-link">＞</a>
         </div>
         <table class="data-table">
             <thead>
@@ -43,7 +44,8 @@
                             <td class="data-table-row-item name-column">
                                 {{ $attendance->user ? str_replace([' ', '　'], '', $attendance->user->name) : 'Unknown' }}
                             </td>
-                            <td class="data-table-row-item">{{ $attendance->work_start_time ? \Carbon\Carbon::parse($attendance->work_start_time)->format('H:i:s') : '' }}
+                            <td class="data-table-row-item">
+                                {{ $attendance->work_start_time ? \Carbon\Carbon::parse($attendance->work_start_time)->format('H:i:s') : '' }}
                             </td>
                             <td class="data-table-row-item">
                                 @if ($attendance->work_end_time)
@@ -54,15 +56,17 @@
                                     勤務中
                                 @endif
                             </td>
-                            <td class="data-table-row-item">{{ \Carbon\CarbonInterval::seconds($attendance->break_duration)->cascade()->format('%H:%I:%S') }}
+                            <td class="data-table-row-item">
+                                {{ \Carbon\CarbonInterval::seconds($attendance->break_duration)->cascade()->format('%H:%I:%S') }}
                             </td>
-                            <td class="data-table-row-item">{{ \Carbon\CarbonInterval::seconds($attendance->work_duration)->cascade()->format('%H:%I:%S') }}
+                            <td class="data-table-row-item">
+                                {{ \Carbon\CarbonInterval::seconds($attendance->work_duration)->cascade()->format('%H:%I:%S') }}
                             </td>
                         </tr>
                     @endforeach
                 @else
-                    <tr>
-                        <td colspan="5" class="text-center">この日の勤怠記録はありません</td>
+                    <tr class="data-table-row">
+                        <td colspan="5" class="text-center data-table-row-item">この日の勤怠記録はありません</td>
                     </tr>
                 @endif
             </tbody>
