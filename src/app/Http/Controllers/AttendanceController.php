@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\AttendanceRecord;
 use App\Models\BreakTime;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
@@ -168,12 +169,69 @@ class AttendanceController extends Controller
             ->latest()
             ->first();
 
+        // 当日の記録がなければ、前日から続いている勤務を翌日の出勤に切り替える
+        if (!$record) {
+            $record = $this->switchToNextDay($userId, $date);
+        }
+
         Log::info('getCurrentAttendance結果', [
             'found' => $record ? 'yes' : 'no',
             'record' => $record
         ]);
 
         return $record;
+    }
+
+    // 日を跨いだ時点で翌日の出勤操作に切り替える
+    // 前日の勤務（休憩中なら休憩も）を23:59:59で終了し、当日の勤務を00:00:00から開始する
+    private function switchToNextDay($userId, $date)
+    {
+        $previousRecord = AttendanceRecord::where('user_id', $userId)
+            ->whereDate('date', Carbon::parse($date)->subDay()->toDateString())
+            ->whereNull('work_end_time')
+            ->latest()
+            ->first();
+
+        if (!$previousRecord) {
+            return null;
+        }
+
+        $previousDayEnd = Carbon::parse($date)->subSecond();
+        $dayStart = Carbon::parse($date);
+
+        return DB::transaction(function () use ($previousRecord, $userId, $date, $previousDayEnd, $dayStart) {
+            $previousRecord->work_end_time = $previousDayEnd;
+            $previousRecord->save();
+
+            $record = AttendanceRecord::create([
+                'user_id' => $userId,
+                'date' => $date,
+                'work_start_time' => $dayStart
+            ]);
+
+            // 休憩中に日を跨いだ場合は、休憩も翌日に引き継ぐ
+            $currentBreak = $previousRecord->breakTimes()
+                ->whereNull('break_end_time')
+                ->first();
+
+            if ($currentBreak) {
+                $currentBreak->break_end_time = $previousDayEnd;
+                $currentBreak->save();
+
+                BreakTime::create([
+                    'attendance_record_id' => $record->id,
+                    'break_start_time' => $dayStart
+                ]);
+            }
+
+            Log::info('日跨ぎにより翌日の勤務に切り替え', [
+                'previous_record_id' => $previousRecord->id,
+                'record_id' => $record->id,
+                'break_carried_over' => $currentBreak ? 'yes' : 'no'
+            ]);
+
+            return $record;
+        });
     }
 
     public function show($date)
