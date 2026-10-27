@@ -15,10 +15,13 @@ class DatabaseSeeder extends Seeder
         // 現在の日付を基準に設定
         $baseDate = Carbon::now()->setTimezone('Asia/Tokyo');
 
+        // 日跨ぎ確認用ユーザーを一覧の先頭に表示されるよう最初に作成
+        $this->createCrossDayUsers($baseDate);
+
         // ユーザーを作成
         User::factory(100)->create()->each(function ($user) use ($baseDate) {
-            // 各ユーザーに対して過去3日分の勤怠記録を作成
-            for ($i = 0; $i < 3; $i++) {
+            // 各ユーザーに対して過去3日分の勤怠記録を作成（当日は勤務開始から打刻できるよう作成しない）
+            for ($i = 1; $i <= 3; $i++) {
                 $date = $baseDate->copy()->subDays($i);
 
                 // 10%の確率で日を跨ぐ勤務時間を設定
@@ -47,8 +50,10 @@ class DatabaseSeeder extends Seeder
                             ->setDate($workEndTime->year, $workEndTime->month, $workEndTime->day);
                         $nextDayWorkEndTime = clone $workEndTime;
 
-                        // 翌日の勤務記録を作成（日付は翌日）
-                        $this->createAttendanceRecord($user, $nextDayDate, $nextDayWorkStartTime, $nextDayWorkEndTime);
+                        // 翌日の勤務記録を作成（日付は翌日、当日にかかる分は作成しない）
+                        if (!$workEndTime->isToday()) {
+                            $this->createAttendanceRecord($user, $nextDayDate, $nextDayWorkStartTime, $nextDayWorkEndTime);
+                        }
                     } else {
                         $this->createAttendanceRecord($user, $date, $workStartTime, $workEndTime);
                     }
@@ -72,6 +77,57 @@ class DatabaseSeeder extends Seeder
                 }
             }
         });
+    }
+
+    // 日跨ぎ確認用ユーザー（前日から勤務が続いている状態）
+    private function createCrossDayUsers($baseDate)
+    {
+        $yesterday = $baseDate->copy()->subDay();
+
+        // 勤務中のまま日を跨ぐ
+        $user = User::factory()->create([
+            'name' => '日跨ぎ 勤務中',
+            'email' => 'crossday-working@example.com',
+        ]);
+        AttendanceRecord::create([
+            'user_id' => $user->id,
+            'date' => $yesterday->toDateString(),
+            'work_start_time' => $yesterday->copy()->setTime(22, 0, 0),
+        ]);
+
+        // 休憩中のまま日を跨ぐ
+        $user = User::factory()->create([
+            'name' => '日跨ぎ 休憩中',
+            'email' => 'crossday-break@example.com',
+        ]);
+        $attendanceRecord = AttendanceRecord::create([
+            'user_id' => $user->id,
+            'date' => $yesterday->toDateString(),
+            'work_start_time' => $yesterday->copy()->setTime(21, 0, 0),
+        ]);
+        BreakTime::create([
+            'attendance_record_id' => $attendanceRecord->id,
+            'break_start_time' => $yesterday->copy()->setTime(23, 30, 0),
+        ]);
+
+        // 前日に休憩を複数回終えて、勤務中のまま日を跨ぐ
+        $user = User::factory()->create([
+            'name' => '日跨ぎ 休憩済み',
+            'email' => 'crossday-breaks-done@example.com',
+        ]);
+        $attendanceRecord = AttendanceRecord::create([
+            'user_id' => $user->id,
+            'date' => $yesterday->toDateString(),
+            'work_start_time' => $yesterday->copy()->setTime(20, 0, 0),
+        ]);
+        foreach ([[21, 0], [22, 30]] as [$hour, $minute]) {
+            $breakStart = $yesterday->copy()->setTime($hour, $minute, 0);
+            BreakTime::create([
+                'attendance_record_id' => $attendanceRecord->id,
+                'break_start_time' => $breakStart,
+                'break_end_time' => (clone $breakStart)->addMinutes(15),
+            ]);
+        }
     }
 
     private function createAttendanceRecord($user, $date, $startTime, $endTime)
