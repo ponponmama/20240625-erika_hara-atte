@@ -20,5 +20,8 @@ class BreakTime extends Model
         return $this->belongsTo(AttendanceRecord::class);
     }
 
-    protected $dates = ['break_start_time', 'break_end_time'];
+    protected $casts = [
+        'break_start_time' => 'datetime',
+        'break_end_time' => 'datetime',
+    ];
 }

@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
                         // 翌日の勤務記録を作成（00:00:00から開始）
                         $nextDayDate = $workEndTime->toDateString();
                         $nextDayWorkStartTime = Carbon::createFromTime(0, 0, 0, 'Asia/Tokyo')
-                            ->setDate($nextDayDate, $workEndTime->month, $workEndTime->day);
+                            ->setDate($workEndTime->year, $workEndTime->month, $workEndTime->day);
                         $nextDayWorkEndTime = clone $workEndTime;
 
                         // 翌日の勤務記録を作成（日付は翌日）

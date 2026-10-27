@@ -17,11 +17,6 @@ class AttendanceRecord extends Model
         'work_end_time',
     ];
 
-    protected $dates = [
-        'work_start_time',
-        'work_end_time'
-    ];
-
     protected $casts = [
         'work_start_time' => 'datetime',
         'work_end_time' => 'datetime',
@@ -42,7 +37,7 @@ class AttendanceRecord extends Model
         return $this->breakTimes()->get()->reduce(function ($carry, $break) {
             $start = Carbon::parse($break->break_start_time);
             $end = $break->break_end_time ? Carbon::parse($break->break_end_time) : Carbon::now();
-            return $carry + $end->diffInSeconds($start);
+            return $carry + $end->diffInSeconds($start, true);
         }, 0);
     }
 }

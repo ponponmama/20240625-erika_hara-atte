@@ -62,13 +62,13 @@ class EmployeeAttendanceController extends Controller
                 ->get()
                 ->sum(function ($break) {
                     return Carbon::parse($break->break_end_time)
-                        ->diffInSeconds(Carbon::parse($break->break_start_time));
+                        ->diffInSeconds(Carbon::parse($break->break_start_time), true);
                 });
 
             // 現在進行中の休憩時間を加算
             if ($currentBreak) {
                 $breakStart = Carbon::parse($currentBreak->break_start_time);
-                $breakDuration += Carbon::now()->diffInSeconds($breakStart);
+                $breakDuration += Carbon::now()->diffInSeconds($breakStart, true);
             }
 
             // 勤務時間の計算
@@ -78,7 +78,7 @@ class EmployeeAttendanceController extends Controller
                     ? Carbon::parse($attendance->work_end_time)
                     : Carbon::now();
 
-                $workDuration = $workEnd->diffInSeconds($workStart);
+                $workDuration = $workEnd->diffInSeconds($workStart, true);
                 $attendance->work_duration = max(0, $workDuration - $breakDuration);
             } else {
                 $attendance->work_duration = 0;
