@@ -104,6 +104,10 @@ class AttendanceController extends Controller
             return back()->with('error', '勤務が開始されていないか、既に終了しています。');
         }
 
+        if ($attendance->breakTimes()->whereNull('break_end_time')->exists()) {
+            return back()->with('error', '休憩を終了してから勤務を終了してください。');
+        }
+
         $attendance->work_end_time = Carbon::now();
         $attendance->save();
 
