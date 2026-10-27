@@ -18,8 +18,14 @@ class DatabaseSeeder extends Seeder
         // 日跨ぎ確認用ユーザーを一覧の先頭に表示されるよう最初に作成
         $this->createCrossDayUsers($baseDate);
 
+        // ログイン確認用の固定ユーザー
+        $testUser = User::factory()->create([
+            'name' => 'テスト ユーザー',
+            'email' => 'test@example.com',
+        ]);
+
         // ユーザーを作成
-        User::factory(100)->create()->each(function ($user) use ($baseDate) {
+        User::factory(100)->create()->prepend($testUser)->each(function ($user) use ($baseDate) {
             // 各ユーザーに対して過去3日分の勤怠記録を作成（当日は勤務開始から打刻できるよう作成しない）
             for ($i = 1; $i <= 3; $i++) {
                 $date = $baseDate->copy()->subDays($i);
